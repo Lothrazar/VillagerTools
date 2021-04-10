@@ -1,5 +1,9 @@
 package com.lothrazar.villagertools;
 
+import com.lothrazar.villagertools.entities.FriendGolem;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityClassification;
+import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -22,6 +26,7 @@ public class ModRegistry {
     }
   };
   public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, ModMain.MODID);
+  public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, ModMain.MODID);
   //
   public static final RegistryObject<Item> LURE = ITEMS.register("lure", () -> new ItemTradeCheats(new Item.Properties().maxStackSize(1).group(ModRegistry.TAB)));
   public static final RegistryObject<Item> BRIBE = ITEMS.register("bribe", () -> new ItemTradeCheats(new Item.Properties().maxStackSize(64).group(ModRegistry.TAB)));
@@ -33,4 +38,11 @@ public class ModRegistry {
   public static final RegistryObject<Item> KEY = ITEMS.register("key", () -> new ItemTradeCheats(new Item.Properties().maxStackSize(64).group(ModRegistry.TAB)));
   public static final RegistryObject<Item> BADGE = ITEMS.register("badge", () -> new ItemTradeCheats(new Item.Properties().maxStackSize(64).group(ModRegistry.TAB)));
   public static final RegistryObject<Item> CURE = ITEMS.register("cure", () -> new ItemTradeCheats(new Item.Properties().maxStackSize(64).group(ModRegistry.TAB)));
+  //
+  public static final RegistryObject<EntityType<FriendGolem>> GOLEM = ENTITIES.register("reinforced_golem", () -> register("reinforced_golem",
+      EntityType.Builder.<FriendGolem> create(FriendGolem::new, EntityClassification.MISC).size(1.4F, 2.7F).trackingRange(10)));
+
+  public static <T extends Entity> EntityType<T> register(String id, EntityType.Builder<T> builder) {
+    return builder.build(id);
+  }
 }
