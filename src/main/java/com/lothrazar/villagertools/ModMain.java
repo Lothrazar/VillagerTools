@@ -1,7 +1,7 @@
 package com.lothrazar.villagertools;
 
-import net.minecraft.block.Blocks;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -16,19 +16,16 @@ public class ModMain {
   public static final Logger LOGGER = LogManager.getLogger();
 
   public ModMain() {
-    ConfigManager.setup();
+    //    ConfigManager.setup();
     FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
     FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setupClient);
+    IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
+    ModRegistry.ITEMS.register(eventBus);
   }
 
   private void setup(final FMLCommonSetupEvent event) {
     //now all blocks/items exist  
-    //    MinecraftForge.EVENT_BUS.register(new ItemEvents());
-    MinecraftForge.EVENT_BUS.register(this);
-    if (ConfigManager.TESTING.get()) {
-      float test = Blocks.BEDROCK.getDefaultState().hardness;
-      ModMain.LOGGER.info("accesstransformer.cfg test bedrock hardness = " + test);
-    }
+    MinecraftForge.EVENT_BUS.register(new ItemEvents());
   }
 
   private void setupClient(final FMLClientSetupEvent event) {

@@ -1,1 +1,30 @@
-{ }
+{ 
+	"itemGroup.villagertools":"Village Artifacts",
+
+	"item.villagertools.badge": "Cursed War Emblem",
+	"item.villagertools.badge.tooltip": "Summons cursed warriors",
+	"item.villagertools.badge.used": "Their war never ended",
+	"item.villagertools.bribe": "Ichor of Virtue",
+	"item.villagertools.bribe.tooltip": "Bribe villagers to forget crimes and increase your reputation",
+	"item.villagertools.bribe.rep": "Reputation increased by ",
+	"item.villagertools.bribe.used": "They seem quite happy",
+	"item.villagertools.cure": "Lost Plague Remedy",
+	"item.villagertools.cure.tooltip": "Ancient zombie cure",
+	"item.villagertools.cure.used": "Healing has begun",
+	"item.villagertools.contract": "Trading Contract",
+	"item.villagertools.contract.tooltip": "Invites a wandering trader to find a new home",
+	"item.villagertools.darkness": "Infernal Shard",
+	"item.villagertools.darkness.tooltip": "Corrupts your allies to the ancient ways of witchcraft",
+	"a":"Oblivion Stone",
+	"item.villagertools.forget": "Scroll of Evangelism",
+	"item.villagertools.forget.tooltip": "Reading will dispel villagers from their profession",
+	"item.villagertools.knowledge": "Grimoire of the Lost Merchants Guild",
+	"item.villagertools.knowledge.tooltip": "Advances most trading professions",
+	"item.villagertools.lure": "Rusted Golemsteel Brazier",
+	"item.villagertools.lure.tooltip": "Villagers are historically drawn to these",
+	"item.villagertools.key": "Llama liberation key",
+	"item.villagertools.key.tooltip": "Unlock the reins of a Wandering Trader Llama",
+	"item.villagertools.key.used": "They have been freed from bondage",
+	"item.villagertools.restock": "Rough Emerald Shard",
+	"item.villagertools.restock.tooltip": "Barter with a villager to restock their trades"
+}

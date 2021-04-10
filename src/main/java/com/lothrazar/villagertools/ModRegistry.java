@@ -1,68 +1,36 @@
 package com.lothrazar.villagertools;
 
-import net.minecraft.block.Block;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.entity.EntityType;
-import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.Item;
-import net.minecraft.potion.Effect;
-import net.minecraft.potion.Potion;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.SoundEvent;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModRegistry {
-  //change Object to your Block/Item/whatever 
-  //  @ObjectHolder(ExampleMod.MODID + ":anything")
-  //  public static Item anything;
 
-  @SubscribeEvent
-  public static void onBlocksRegistry(final RegistryEvent.Register<Block> event) {
-    //IForgeRegistry<Block> r = event.getRegistry();
-    //    r.register(  );
-  }
+  public static final ItemGroup TAB = new ItemGroup(ModMain.MODID) {
 
-  @SubscribeEvent
-  public static void onTileEntityRegistry(final RegistryEvent.Register<TileEntityType<?>> event) {
-    //   IForgeRegistry<TileEntityType<?>> r = event.getRegistry();
-  }
-
-  @SubscribeEvent
-  public static void onContainerRegistry(final RegistryEvent.Register<ContainerType<?>> event) {
-    // IForgeRegistry<ContainerType<?>> r = event.getRegistry();
-  }
-
-  @SubscribeEvent
-  public static void onItemsRegistry(final RegistryEvent.Register<Item> event) {
-    //  IForgeRegistry<Item> r = event.getRegistry();
-    //  r.register(new ItemTest(new Item.Properties().maxStackSize(1)));
-  }
-
-  @SubscribeEvent
-  public static void onEnchantRegister(final RegistryEvent.Register<Enchantment> event) {
-    //  IForgeRegistry<Enchantment> r = event.getRegistry();
-  }
-
-  @SubscribeEvent
-  public static void registerEntity(RegistryEvent.Register<EntityType<?>> e) {
-    // IForgeRegistry<EntityType<?>> r = e.getRegistry();
-  }
-
-  @SubscribeEvent
-  public static void onPotEffectRegistry(RegistryEvent.Register<Effect> event) {
-    //  IForgeRegistry<Effect> r = event.getRegistry();
-  }
-
-  @SubscribeEvent
-  public static void onPotRegistry(RegistryEvent.Register<Potion> event) {
-    //   IForgeRegistry<Potion> r = event.getRegistry();
-  }
-
-  @SubscribeEvent
-  public static void registerSounds(RegistryEvent.Register<SoundEvent> event) {
-    //  IForgeRegistry<SoundEvent> r = event.getRegistry();
-  }
+    @Override
+    @OnlyIn(Dist.CLIENT)
+    public ItemStack createIcon() {
+      return new ItemStack(LURE.get());
+    }
+  };
+  public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, ModMain.MODID);
+  //
+  public static final RegistryObject<Item> LURE = ITEMS.register("lure", () -> new ItemTradeCheats(new Item.Properties().maxStackSize(1).group(ModRegistry.TAB)));
+  public static final RegistryObject<Item> BRIBE = ITEMS.register("bribe", () -> new ItemTradeCheats(new Item.Properties().maxStackSize(64).group(ModRegistry.TAB)));
+  public static final RegistryObject<Item> RESTOCK = ITEMS.register("restock", () -> new ItemTradeCheats(new Item.Properties().maxStackSize(64).group(ModRegistry.TAB)));
+  public static final RegistryObject<Item> FORGET = ITEMS.register("forget", () -> new ItemTradeCheats(new Item.Properties().maxStackSize(64).group(ModRegistry.TAB)));
+  public static final RegistryObject<Item> CONTRACT = ITEMS.register("contract", () -> new ItemTradeCheats(new Item.Properties().maxStackSize(64).group(ModRegistry.TAB)));
+  public static final RegistryObject<Item> DARKNESS = ITEMS.register("darkness", () -> new ItemTradeCheats(new Item.Properties().maxStackSize(64).group(ModRegistry.TAB)));
+  public static final RegistryObject<Item> KNOWLEDGE = ITEMS.register("knowledge", () -> new ItemTradeCheats(new Item.Properties().maxStackSize(64).group(ModRegistry.TAB)));
+  public static final RegistryObject<Item> KEY = ITEMS.register("key", () -> new ItemTradeCheats(new Item.Properties().maxStackSize(64).group(ModRegistry.TAB)));
+  public static final RegistryObject<Item> BADGE = ITEMS.register("badge", () -> new ItemTradeCheats(new Item.Properties().maxStackSize(64).group(ModRegistry.TAB)));
+  public static final RegistryObject<Item> CURE = ITEMS.register("cure", () -> new ItemTradeCheats(new Item.Properties().maxStackSize(64).group(ModRegistry.TAB)));
 }

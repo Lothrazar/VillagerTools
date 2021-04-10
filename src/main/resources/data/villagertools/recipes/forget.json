@@ -1,0 +1,22 @@
+{
+  "type": "crafting_shaped",
+  "pattern": [
+    "yxy",
+    " p ",
+    " y "
+  ],
+  "key": {
+    "p": {
+      "item": "minecraft:paper"
+    },
+    "x": {
+      "item": "minecraft:iron_nugget"
+    },
+    "y": {
+      "item": "villagertools:restock"
+    }
+  },
+  "result": {
+    "item": "villagertools:forget"
+  }
+}

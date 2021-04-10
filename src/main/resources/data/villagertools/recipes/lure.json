@@ -1,0 +1,22 @@
+{
+  "type": "crafting_shaped",
+  "pattern": [
+    "xyx",
+    " p ",
+    " x "
+  ],
+  "key": {
+    "p": {
+      "item": "minecraft:torch"
+    },
+    "x": {
+      "item": "minecraft:iron_nugget"
+    },
+    "y": {
+      "item": "villagertools:restock"
+    }
+  },
+  "result": {
+    "item": "villagertools:lure"
+  }
+}

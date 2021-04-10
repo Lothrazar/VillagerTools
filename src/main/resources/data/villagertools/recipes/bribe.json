@@ -1,0 +1,24 @@
+{
+  "type": "crafting_shaped",
+  "pattern": [
+    "#Xy",
+    " p "
+  ],
+  "key": {
+    "p": {
+      "item": "minecraft:potion"
+    },
+    "#": {
+      "item": "minecraft:apple"
+    },
+    "X": {
+      "item": "minecraft:poppy"
+    },
+    "y": {
+      "item": "villagertools:restock"
+    }
+  },
+  "result": {
+    "item": "villagertools:bribe"
+  }
+}
