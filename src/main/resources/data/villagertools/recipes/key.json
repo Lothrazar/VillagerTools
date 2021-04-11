@@ -1,19 +1,19 @@
 {
   "type": "crafting_shaped",
   "pattern": [
-    "yxy",
+    " x ",
     " p ",
     " y "
   ],
   "key": {
     "p": {
-      "item": "minecraft:gold_ingot"
+      "item": "minecraft:gold_nugget"
     },
     "x": {
       "item": "minecraft:iron_nugget"
     },
     "y": {
-      "item": "villagertools:restock"
+      "item": "villagertools:contract"
     }
   },
   "result": {

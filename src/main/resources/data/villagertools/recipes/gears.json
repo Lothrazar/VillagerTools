@@ -7,16 +7,16 @@
   ],
   "key": {
     "p": {
-      "item": "minecraft:shield"
+      "item": "villagertools:guard"
     },
     "x": {
-      "item": "villagertools:darkness"
+      "item": "minecraft:iron_block"
     },
     "y": {
       "item": "villagertools:restock"
     }
   },
   "result": {
-    "item": "villagertools:badge"
+    "item": "villagertools:gears"
   }
 }

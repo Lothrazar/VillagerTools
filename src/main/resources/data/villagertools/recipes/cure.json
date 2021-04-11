@@ -1,24 +1,22 @@
 {
   "type": "crafting_shaped",
   "pattern": [
-    "#Xy",
-    " p "
+    "# #",
+    "pxp"
   ],
   "key": {
     "p": {
-      "item": "minecraft:potion"
+      "item": "minecraft:glass_pane"
     },
     "#": {
       "item": "minecraft:fermented_spider_eye"
     },
-    "X": {
+    "x": {
       "item": "minecraft:golden_apple"
-    },
-    "y": {
-      "item": "villagertools:restock"
     }
   },
   "result": {
-    "item": "villagertools:cure"
+    "item": "villagertools:cure",
+    "count": 2
   }
 }

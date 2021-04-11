@@ -2,6 +2,8 @@ package com.lothrazar.villagertools;
 
 import com.lothrazar.villagertools.entities.FriendGolem;
 import com.lothrazar.villagertools.entities.FriendGolem.CactusGolemRenderer;
+import com.lothrazar.villagertools.entities.GuardVindicator;
+import com.lothrazar.villagertools.entities.GuardVindicator.GuardRender;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
@@ -37,9 +39,11 @@ public class ModMain {
     EntitySpawnPlacementRegistry.register(ModRegistry.GOLEM.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MobEntity::canSpawnOn);
     /** FORGE: Use net.minecraftforge.event.entity.EntityAttributeCreationEvent#put To be removed in 1.17 */
     GlobalEntityTypeAttributes.put(ModRegistry.GOLEM.get(), FriendGolem.createAttributes().create());
+    GlobalEntityTypeAttributes.put(ModRegistry.GUARD.get(), GuardVindicator.createAttributes().create());
   }
 
   private void setupClient(final FMLClientSetupEvent event) {
     RenderingRegistry.registerEntityRenderingHandler(ModRegistry.GOLEM.get(), CactusGolemRenderer::new);
+    RenderingRegistry.registerEntityRenderingHandler(ModRegistry.GUARD.get(), GuardRender::new);
   }
 }

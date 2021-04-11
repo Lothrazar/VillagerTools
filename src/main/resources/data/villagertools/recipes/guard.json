@@ -1,0 +1,22 @@
+{
+  "type": "crafting_shaped",
+  "pattern": [
+    "xxx",
+    " z ",
+    " y "
+  ],
+  "key": {
+    "z": {
+      "item": "villagertools:cure"
+    },
+    "x": {
+      "item": "minecraft:leather"
+    },
+    "y": {
+      "item": "villagertools:darkness"
+    }
+  },
+  "result": {
+    "item": "villagertools:guard"
+  }
+}

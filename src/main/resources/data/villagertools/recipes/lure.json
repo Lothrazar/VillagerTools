@@ -7,13 +7,13 @@
   ],
   "key": {
     "p": {
-      "item": "minecraft:torch"
+      "item": "minecraft:lantern"
     },
     "x": {
       "item": "minecraft:iron_nugget"
     },
     "y": {
-      "item": "villagertools:restock"
+      "item": "minecraft:lime_dye"
     }
   },
   "result": {

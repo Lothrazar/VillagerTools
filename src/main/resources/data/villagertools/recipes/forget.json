@@ -1,19 +1,18 @@
 {
   "type": "crafting_shaped",
   "pattern": [
-    "yxy",
-    " p ",
+    "xpx",
     " y "
   ],
   "key": {
     "p": {
-      "item": "minecraft:paper"
+      "item": "villagertools:contract"
     },
     "x": {
-      "item": "minecraft:iron_nugget"
+      "item": "minecraft:ink_sac"
     },
     "y": {
-      "item": "villagertools:restock"
+      "item": "minecraft:stick"
     }
   },
   "result": {

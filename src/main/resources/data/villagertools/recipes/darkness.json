@@ -3,14 +3,14 @@
   "pattern": [
     "yxy",
     " p ",
-    " y "
+    "xyx"
   ],
   "key": {
     "p": {
       "item": "minecraft:ender_pearl"
     },
     "x": {
-      "item": "minecraft:iron_nugget"
+      "item": "minecraft:rotten_flesh"
     },
     "y": {
       "item": "villagertools:restock"
