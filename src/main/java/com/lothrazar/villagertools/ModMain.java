@@ -33,11 +33,14 @@ public class ModMain {
     ModRegistry.ENTITIES.register(eventBus);
   }
 
+  @SuppressWarnings("deprecation")
   private void setup(final FMLCommonSetupEvent event) {
     //now all blocks/items exist  
     MinecraftForge.EVENT_BUS.register(new ItemEvents());
     EntitySpawnPlacementRegistry.register(ModRegistry.GOLEM.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MobEntity::canSpawnOn);
-    /** FORGE: Use net.minecraftforge.event.entity.EntityAttributeCreationEvent#put To be removed in 1.17 */
+    /**
+     * FORGE: Use net.minecraftforge.event.entity.EntityAttributeCreationEvent#put To be removed in 1.17 BUT!!! i coded EntityAttributeCreationEvent and it literally fails instantly
+     */
     GlobalEntityTypeAttributes.put(ModRegistry.GOLEM.get(), FriendGolem.createAttributes().create());
     GlobalEntityTypeAttributes.put(ModRegistry.GUARD.get(), GuardVindicator.createAttributes().create());
   }

@@ -1,4 +1,4 @@
-package com.lothrazar.villagertools;
+package com.lothrazar.villagertools.item;
 
 import java.util.List;
 import net.minecraft.client.util.ITooltipFlag;
@@ -11,9 +11,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class ItemTradeCheats extends Item {
+public class ItemVillager extends Item {
 
-  public ItemTradeCheats(Properties properties) {
+  public ItemVillager(Properties properties) {
     super(properties);
   }
 

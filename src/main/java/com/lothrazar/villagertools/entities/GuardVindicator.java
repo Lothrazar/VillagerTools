@@ -18,8 +18,7 @@ import net.minecraft.entity.ai.goal.PatrolVillageGoal;
 import net.minecraft.entity.ai.goal.ReturnToVillageGoal;
 import net.minecraft.entity.ai.goal.TemptGoal;
 import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
-import net.minecraft.entity.monster.PatrollerEntity;
-import net.minecraft.entity.monster.PillagerEntity;
+import net.minecraft.entity.monster.AbstractIllagerEntity;
 import net.minecraft.entity.monster.RavagerEntity;
 import net.minecraft.entity.monster.SkeletonEntity;
 import net.minecraft.entity.monster.SpiderEntity;
@@ -34,7 +33,6 @@ public class GuardVindicator extends VindicatorEntity {
 
   public GuardVindicator(EntityType<? extends VindicatorEntity> t, World w) {
     super(t, w);
-    PatrollerEntity xyz;
   }
 
   @Override
@@ -49,12 +47,13 @@ public class GuardVindicator extends VindicatorEntity {
     this.goalSelector.addGoal(2, new ReturnToVillageGoal(this, 0.6D, false));
     this.goalSelector.addGoal(4, new PatrolVillageGoal(this, 0.6D));
     this.goalSelector.addGoal(7, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
+    //    this.targetSelector.addGoal(1, new DefendVillageTargetGoal(this));
     this.targetSelector.addGoal(1, (new HurtByTargetGoal(this, PlayerEntity.class)).setCallsForHelp(GuardVindicator.class));
     this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, SpiderEntity.class, true));
     this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, SkeletonEntity.class, true));
     this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, ZombieEntity.class, false));
     this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, VindicatorEntity.class, true));
-    this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, PillagerEntity.class, true));
+    this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, AbstractIllagerEntity.class, true));
     this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, RavagerEntity.class, true));
   }
 
@@ -69,7 +68,6 @@ public class GuardVindicator extends VindicatorEntity {
   }
 
   public static AttributeModifierMap.MutableAttribute createAttributes() {
-    SkeletonEntity y;
     return MobEntity.func_233666_p_()
         .createMutableAttribute(Attributes.MAX_HEALTH, 100.0D)
         .createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.25D)
