@@ -120,15 +120,16 @@ public class ItemEvents {
       removeEntity(world, trader);
       this.onComplete(player, event.getHand(), stack);
     }
-    else if (stack.getItem() == ModRegistry.DARKNESS.get() && targetType == EntityType.WITCH) {
-      WanderingTraderEntity trader = (WanderingTraderEntity) targetEnt;
-      //do it 
-      IllusionerEntity villagerChild = trader.func_233656_b_(EntityType.ILLUSIONER, false);
-      world.addEntity(villagerChild);
-      //remove the other
-      removeEntity(world, trader);
-      this.onComplete(player, event.getHand(), stack);
-    }
+    else if (stack.getItem() == ModRegistry.DARKNESS.get() && targetType == EntityType.WANDERING_TRADER
+        && targetEnt instanceof WanderingTraderEntity) {
+          WanderingTraderEntity trader = (WanderingTraderEntity) targetEnt;
+          //do it 
+          IllusionerEntity villagerChild = trader.func_233656_b_(EntityType.ILLUSIONER, false);
+          world.addEntity(villagerChild);
+          //remove the other
+          removeEntity(world, trader);
+          this.onComplete(player, event.getHand(), stack);
+        }
     else if (stack.getItem() == ModRegistry.DARKNESS.get() && targetEnt instanceof CowEntity) {
       CowEntity trader = (CowEntity) targetEnt;
       //do it 
@@ -156,7 +157,7 @@ public class ItemEvents {
       removeEntity(world, vil);
       this.onComplete(player, event.getHand(), stack);
     }
-    else if (stack.getItem() == ModRegistry.DARKNESS.get() && targetType == ModRegistry.GUARD.get()) {
+    else if (stack.getItem() == ModRegistry.DARKNESS.get() && targetType == ModRegistry.GUARDENTITY.get()) {
       //guard REVERSO
       GuardVindicator trader = (GuardVindicator) targetEnt;
       //make it back into pillager
@@ -171,9 +172,10 @@ public class ItemEvents {
     else if (stack.getItem() == ModRegistry.GUARD_ITEM.get() && targetEnt instanceof AbstractRaiderEntity) {
       //pillager into guard
       AbstractRaiderEntity trader = (AbstractRaiderEntity) targetEnt;
-      GuardVindicator villagerChild = ModRegistry.GUARD.get().create(world);
+      GuardVindicator villagerChild = ModRegistry.GUARDENTITY.get().create(world);
       villagerChild.setPosition(pos.getX(), pos.getY(), pos.getZ());
       villagerChild.setHomePosAndDistance(pos, 30);
+      world.addEntity(villagerChild);
       //remove the other
       removeEntity(world, trader);
       this.onComplete(player, event.getHand(), stack);
@@ -181,9 +183,10 @@ public class ItemEvents {
     else if (stack.getItem() == ModRegistry.GUARD_ITEM.get() && targetType == EntityType.WITCH) {
       WitchEntity trader = (WitchEntity) targetEnt;
       //witch can get cured too
-      GuardVindicator villagerChild = ModRegistry.GUARD.get().create(world);
+      GuardVindicator villagerChild = ModRegistry.GUARDENTITY.get().create(world);
       villagerChild.setPosition(pos.getX(), pos.getY(), pos.getZ());
       villagerChild.setHomePosAndDistance(pos, 30);
+      world.addEntity(villagerChild);
       //remove the other
       removeEntity(world, trader);
       this.onComplete(player, event.getHand(), stack);
@@ -251,9 +254,6 @@ public class ItemEvents {
       ((ServerWorld) world).removeEntity(trader);
     }
   }
-  //  private void onFail(PlayerEntity player, ItemStack stack) {
-  //    player.sendStatusMessage(new TranslationTextComponent(stack.getTranslationKey() + ".used"), false);
-  //  }
 
   private void onComplete(PlayerEntity player, Hand hand, ItemStack stack) {
     player.swingArm(hand);
@@ -272,12 +272,6 @@ public class ItemEvents {
     compound.putLong("LastRestock", 0);
     vil.readAdditional(compound);
   }
-  // TODO: when forge fixes it
-  //  @SubscribeEvent
-  //  public void entityAttributes(EntityAttributeCreationEvent event) {
-  //    event.put(ModRegistry.GOLEM.get(), FriendGolem.createAttributes().create());
-  //    event.put(ModRegistry.GUARD.get(), GuardVindicator.createAttributes().create());
-  //  }
 
   @SubscribeEvent
   public void onVillagerStart(EntityJoinWorldEvent event) {

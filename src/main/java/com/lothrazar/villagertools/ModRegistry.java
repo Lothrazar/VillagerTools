@@ -43,7 +43,7 @@ public class ModRegistry {
   public static final RegistryObject<Item> BADGE = ITEMS.register("badge", () -> new ItemVillager(new Item.Properties().maxStackSize(64).group(ModRegistry.TAB)));
   public static final RegistryObject<Item> CURE = ITEMS.register("cure", () -> new ItemVillager(new Item.Properties().maxStackSize(64).group(ModRegistry.TAB)));
   //
-  public static final RegistryObject<EntityType<GuardVindicator>> GUARD = ENTITIES.register("guard", () -> register("guard",
+  public static final RegistryObject<EntityType<GuardVindicator>> GUARDENTITY = ENTITIES.register("guard", () -> register("guard",
       EntityType.Builder.<GuardVindicator> create(GuardVindicator::new, EntityClassification.MISC).size(1.4F, 2.7F).trackingRange(10)));
   public static final RegistryObject<EntityType<FriendGolem>> GOLEM = ENTITIES.register("reinforced_golem", () -> register("reinforced_golem",
       EntityType.Builder.<FriendGolem> create(FriendGolem::new, EntityClassification.MISC).size(1.4F, 2.7F).trackingRange(10)));

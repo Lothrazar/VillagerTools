@@ -42,11 +42,11 @@ public class ModMain {
      * FORGE: Use net.minecraftforge.event.entity.EntityAttributeCreationEvent#put To be removed in 1.17 BUT!!! i coded EntityAttributeCreationEvent and it literally fails instantly
      */
     GlobalEntityTypeAttributes.put(ModRegistry.GOLEM.get(), FriendGolem.createAttributes().create());
-    GlobalEntityTypeAttributes.put(ModRegistry.GUARD.get(), GuardVindicator.createAttributes().create());
+    GlobalEntityTypeAttributes.put(ModRegistry.GUARDENTITY.get(), GuardVindicator.createAttributes().create());
   }
 
   private void setupClient(final FMLClientSetupEvent event) {
     RenderingRegistry.registerEntityRenderingHandler(ModRegistry.GOLEM.get(), CactusGolemRenderer::new);
-    RenderingRegistry.registerEntityRenderingHandler(ModRegistry.GUARD.get(), GuardRender::new);
+    RenderingRegistry.registerEntityRenderingHandler(ModRegistry.GUARDENTITY.get(), GuardRender::new);
   }
 }
