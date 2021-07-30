@@ -11,6 +11,7 @@ public class ConfigManager {
   private static final ForgeConfigSpec.Builder CFG = new ForgeConfigSpec.Builder();
   private static ForgeConfigSpec COMMON_CONFIG;
   public static BooleanValue TESTING;
+
   static {
     initConfig();
   }

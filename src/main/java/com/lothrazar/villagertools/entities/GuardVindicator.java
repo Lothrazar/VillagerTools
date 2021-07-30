@@ -1,64 +1,60 @@
 package com.lothrazar.villagertools.entities;
 
-import com.lothrazar.villagertools.ModMain;
 import com.lothrazar.villagertools.ModRegistry;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraft.client.renderer.entity.VindicatorRenderer;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.goal.HurtByTargetGoal;
-import net.minecraft.entity.ai.goal.LookAtGoal;
-import net.minecraft.entity.ai.goal.LookRandomlyGoal;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.ai.goal.MoveTowardsTargetGoal;
-import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
-import net.minecraft.entity.ai.goal.PatrolVillageGoal;
-import net.minecraft.entity.ai.goal.ReturnToVillageGoal;
-import net.minecraft.entity.ai.goal.TemptGoal;
-import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
-import net.minecraft.entity.monster.AbstractIllagerEntity;
-import net.minecraft.entity.monster.RavagerEntity;
-import net.minecraft.entity.monster.SkeletonEntity;
-import net.minecraft.entity.monster.SpiderEntity;
-import net.minecraft.entity.monster.VindicatorEntity;
-import net.minecraft.entity.monster.ZombieEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.GolemRandomStrollInVillageGoal;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.MoveBackToVillageGoal;
+import net.minecraft.world.entity.ai.goal.MoveTowardsTargetGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.TemptGoal;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.monster.AbstractIllager;
+import net.minecraft.world.entity.monster.Ravager;
+import net.minecraft.world.entity.monster.Skeleton;
+import net.minecraft.world.entity.monster.Spider;
+import net.minecraft.world.entity.monster.Vindicator;
+import net.minecraft.world.entity.monster.Zombie;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.Level;
 
-public class GuardVindicator extends VindicatorEntity {
+public class GuardVindicator extends Vindicator {
 
-  public GuardVindicator(EntityType<? extends VindicatorEntity> t, World w) {
+  public GuardVindicator(EntityType<? extends Vindicator> t, Level w) {
     super(t, w);
   }
 
   @Override
   protected void registerGoals() {
     //    super.registerGoals(); 
-    this.goalSelector.addGoal(8, new LookAtGoal(this, PlayerEntity.class, 8.0F));
-    this.goalSelector.addGoal(8, new LookRandomlyGoal(this));
+    this.goalSelector.addGoal(8, new LookAtPlayerGoal(this, Player.class, 8.0F));
+    this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
     //    this.goalSelector.addGoal(6, new MoveThroughVillageGoal(this, 1.0D, true, 4, () -> false));
     this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.0D, true));
-    this.goalSelector.addGoal(2, new TemptGoal(this, 0.666, Ingredient.fromItems(ModRegistry.LURE.get()), false));
+    this.goalSelector.addGoal(2, new TemptGoal(this, 0.666, Ingredient.of(ModRegistry.LURE.get()), false));
     this.goalSelector.addGoal(2, new MoveTowardsTargetGoal(this, 0.9D, 32.0F));
-    this.goalSelector.addGoal(2, new ReturnToVillageGoal(this, 0.6D, false));
-    this.goalSelector.addGoal(4, new PatrolVillageGoal(this, 0.6D));
-    this.goalSelector.addGoal(7, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
+    this.goalSelector.addGoal(2, new MoveBackToVillageGoal(this, 0.6D, false));
+    this.goalSelector.addGoal(4, new GolemRandomStrollInVillageGoal(this, 0.6D));
+    this.goalSelector.addGoal(7, new WaterAvoidingRandomStrollGoal(this, 1.0D));
     //    this.targetSelector.addGoal(1, new DefendVillageTargetGoal(this));
-    this.targetSelector.addGoal(1, (new HurtByTargetGoal(this, PlayerEntity.class)).setCallsForHelp(GuardVindicator.class));
-    this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, SpiderEntity.class, true));
-    this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, SkeletonEntity.class, true));
-    this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, ZombieEntity.class, false));
-    this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, VindicatorEntity.class, true));
-    this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, AbstractIllagerEntity.class, true));
-    this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, RavagerEntity.class, true));
+    this.targetSelector.addGoal(1, (new HurtByTargetGoal(this, Player.class)).setAlertOthers(GuardVindicator.class));
+    this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Spider.class, true));
+    this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Skeleton.class, true));
+    this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Zombie.class, false));
+    this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Vindicator.class, true));
+    this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, AbstractIllager.class, true));
+    this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Ravager.class, true));
   }
 
   @Override
-  protected int getExperiencePoints(PlayerEntity player) {
+  protected int getExperienceReward(Player player) {
     return 0;
   }
 
@@ -67,26 +63,11 @@ public class GuardVindicator extends VindicatorEntity {
     return true;
   }
 
-  public static AttributeModifierMap.MutableAttribute createAttributes() {
-    return MobEntity.func_233666_p_()
-        .createMutableAttribute(Attributes.MAX_HEALTH, 100.0D)
-        .createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.25D)
-        .createMutableAttribute(Attributes.KNOCKBACK_RESISTANCE, 1.0D)
-        .createMutableAttribute(Attributes.ATTACK_DAMAGE, 11.0D);
-  }
-
-  @SuppressWarnings("hiding")
-  public static class GuardRender<GuardVindicator> extends VindicatorRenderer {
-
-    private static final ResourceLocation TXT = new ResourceLocation(ModMain.MODID, "textures/entity/guard.png");
-
-    public GuardRender(EntityRendererManager rendermanagerIn) {
-      super(rendermanagerIn);
-    }
-
-    @Override
-    public ResourceLocation getEntityTexture(VindicatorEntity entity) {
-      return TXT;
-    }
+  public static AttributeSupplier.Builder createAttributes() {
+    return Mob.createMobAttributes()
+        .add(Attributes.MAX_HEALTH, 100.0D)
+        .add(Attributes.MOVEMENT_SPEED, 0.25D)
+        .add(Attributes.KNOCKBACK_RESISTANCE, 1.0D)
+        .add(Attributes.ATTACK_DAMAGE, 11.0D);
   }
 }

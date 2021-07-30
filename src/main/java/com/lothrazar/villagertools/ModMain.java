@@ -1,18 +1,11 @@
 package com.lothrazar.villagertools;
 
-import com.lothrazar.villagertools.entities.FriendGolem;
-import com.lothrazar.villagertools.entities.FriendGolem.CactusGolemRenderer;
-import com.lothrazar.villagertools.entities.GuardVindicator;
-import com.lothrazar.villagertools.entities.GuardVindicator.GuardRender;
-import net.minecraft.entity.EntitySpawnPlacementRegistry;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
-import net.minecraft.world.gen.Heightmap;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.SpawnPlacements;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
@@ -27,7 +20,7 @@ public class ModMain {
   public ModMain() {
     //    ConfigManager.setup();
     FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
-    FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setupClient);
+    //    FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setupClient);
     IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
     ModRegistry.ITEMS.register(eventBus);
     ModRegistry.ENTITIES.register(eventBus);
@@ -37,16 +30,9 @@ public class ModMain {
   private void setup(final FMLCommonSetupEvent event) {
     //now all blocks/items exist  
     MinecraftForge.EVENT_BUS.register(new ItemEvents());
-    EntitySpawnPlacementRegistry.register(ModRegistry.GOLEM.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MobEntity::canSpawnOn);
+    SpawnPlacements.register(ModRegistry.GOLEM.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Mob::checkMobSpawnRules);
     /**
      * FORGE: Use net.minecraftforge.event.entity.EntityAttributeCreationEvent#put To be removed in 1.17 BUT!!! i coded EntityAttributeCreationEvent and it literally fails instantly
      */
-    GlobalEntityTypeAttributes.put(ModRegistry.GOLEM.get(), FriendGolem.createAttributes().create());
-    GlobalEntityTypeAttributes.put(ModRegistry.GUARDENTITY.get(), GuardVindicator.createAttributes().create());
-  }
-
-  private void setupClient(final FMLClientSetupEvent event) {
-    RenderingRegistry.registerEntityRenderingHandler(ModRegistry.GOLEM.get(), CactusGolemRenderer::new);
-    RenderingRegistry.registerEntityRenderingHandler(ModRegistry.GUARDENTITY.get(), GuardRender::new);
   }
 }

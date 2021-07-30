@@ -1,6 +1,6 @@
 {
-    "parent": "item/generated",
-    "textures": {
-        "layer0": "villagertools:item/knowledge"
-    }
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "villagertools:item/knowledge"
+  }
 }

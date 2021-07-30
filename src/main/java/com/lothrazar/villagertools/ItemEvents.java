@@ -2,33 +2,33 @@ package com.lothrazar.villagertools;
 
 import com.lothrazar.villagertools.entities.FriendGolem;
 import com.lothrazar.villagertools.entities.GuardVindicator;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ai.goal.TemptGoal;
-import net.minecraft.entity.merchant.IReputationType;
-import net.minecraft.entity.merchant.villager.VillagerEntity;
-import net.minecraft.entity.merchant.villager.VillagerProfession;
-import net.minecraft.entity.merchant.villager.WanderingTraderEntity;
-import net.minecraft.entity.monster.AbstractRaiderEntity;
-import net.minecraft.entity.monster.EvokerEntity;
-import net.minecraft.entity.monster.IllusionerEntity;
-import net.minecraft.entity.monster.PillagerEntity;
-import net.minecraft.entity.monster.RavagerEntity;
-import net.minecraft.entity.monster.WitchEntity;
-import net.minecraft.entity.monster.ZombieVillagerEntity;
-import net.minecraft.entity.passive.CowEntity;
-import net.minecraft.entity.passive.IronGolemEntity;
-import net.minecraft.entity.passive.horse.LlamaEntity;
-import net.minecraft.entity.passive.horse.TraderLlamaEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ai.goal.TemptGoal;
+import net.minecraft.world.entity.ai.village.ReputationEventType;
+import net.minecraft.world.entity.animal.Cow;
+import net.minecraft.world.entity.animal.IronGolem;
+import net.minecraft.world.entity.animal.horse.Llama;
+import net.minecraft.world.entity.animal.horse.TraderLlama;
+import net.minecraft.world.entity.monster.Evoker;
+import net.minecraft.world.entity.monster.Illusioner;
+import net.minecraft.world.entity.monster.Pillager;
+import net.minecraft.world.entity.monster.Ravager;
+import net.minecraft.world.entity.monster.Witch;
+import net.minecraft.world.entity.monster.ZombieVillager;
+import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.entity.npc.VillagerProfession;
+import net.minecraft.world.entity.npc.WanderingTrader;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.raid.Raider;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -40,28 +40,28 @@ public class ItemEvents {
     if (event.getPos() == null || event.getFace() == null) {
       return;
     }
-    BlockPos pos = event.getPos().offset(event.getFace());
-    PlayerEntity player = event.getPlayer();
+    BlockPos pos = event.getPos().relative(event.getFace());
+    Player player = event.getPlayer();
     ItemStack stack = event.getItemStack();
-    if (player.getCooldownTracker().hasCooldown(stack.getItem())) {
+    if (player.getCooldowns().isOnCooldown(stack.getItem())) {
       return;
     }
-    World world = player.world;
+    Level world = player.level;
     if (stack.getItem() == ModRegistry.BADGE.get()) {
-      PillagerEntity child = EntityType.PILLAGER.create(world);
-      child.setPosition(pos.getX(), pos.getY(), pos.getZ());
-      child.setHomePosAndDistance(pos, world.rand.nextInt(20) + 10);
-      world.addEntity(child);
+      Pillager child = EntityType.PILLAGER.create(world);
+      child.setPos(pos.getX(), pos.getY(), pos.getZ());
+      child.restrictTo(pos, world.random.nextInt(20) + 10);
+      world.addFreshEntity(child);
       //another one
       child = EntityType.PILLAGER.create(world);
-      child.setPosition(pos.getX() + world.rand.nextInt(5), pos.getY(), pos.getZ() + world.rand.nextInt(5));
-      child.setHomePosAndDistance(pos, world.rand.nextInt(20) + 10);
-      world.addEntity(child);
+      child.setPos(pos.getX() + world.random.nextInt(5), pos.getY(), pos.getZ() + world.random.nextInt(5));
+      child.restrictTo(pos, world.random.nextInt(20) + 10);
+      world.addFreshEntity(child);
       //another one
       child = EntityType.PILLAGER.create(world);
-      child.setPosition(pos.getX() + world.rand.nextInt(5), pos.getY(), pos.getZ() + world.rand.nextInt(5));
-      child.setHomePosAndDistance(pos, world.rand.nextInt(20) + 10);
-      world.addEntity(child);
+      child.setPos(pos.getX() + world.random.nextInt(5), pos.getY(), pos.getZ() + world.random.nextInt(5));
+      child.restrictTo(pos, world.random.nextInt(20) + 10);
+      world.addFreshEntity(child);
       this.onComplete(player, event.getHand(), stack);
     }
   }
@@ -69,90 +69,90 @@ public class ItemEvents {
   @SubscribeEvent
   public void onInteract(PlayerInteractEvent.EntityInteract event) {
     ItemStack stack = event.getItemStack();
-    PlayerEntity player = event.getPlayer();
-    if (player.getCooldownTracker().hasCooldown(stack.getItem())) {
+    Player player = event.getPlayer();
+    if (player.getCooldowns().isOnCooldown(stack.getItem())) {
       return;
     }
-    World world = player.world;
+    Level world = player.level;
     Entity targetEnt = event.getTarget();
     EntityType<?> targetType = targetEnt.getType();
-    BlockPos pos = targetEnt.getPosition();
+    BlockPos pos = targetEnt.blockPosition();
     if (stack.getItem() == ModRegistry.CURE.get() && targetType == EntityType.ZOMBIE_VILLAGER) {
-      ZombieVillagerEntity trader = (ZombieVillagerEntity) targetEnt;
+      ZombieVillager trader = (ZombieVillager) targetEnt;
       //convert as normal
-      trader.startConverting(player.getUniqueID(), world.rand.nextInt(2401) + 3600);
+      trader.startConverting(player.getUUID(), world.random.nextInt(2401) + 3600);
       this.onComplete(player, event.getHand(), stack);
     }
-    else if (stack.getItem() == ModRegistry.CONTRACT.get() && targetEnt instanceof WanderingTraderEntity) {
-      WanderingTraderEntity trader = (WanderingTraderEntity) targetEnt;
+    else if (stack.getItem() == ModRegistry.CONTRACT.get() && targetEnt instanceof WanderingTrader) {
+      WanderingTrader trader = (WanderingTrader) targetEnt;
       //do it 
-      VillagerEntity villagerChild = trader.func_233656_b_(EntityType.VILLAGER, false);
-      world.addEntity(villagerChild);
+      Villager villagerChild = trader.convertTo(EntityType.VILLAGER, false);
+      world.addFreshEntity(villagerChild);
       //remove the other
       removeEntity(world, trader);
       this.onComplete(player, event.getHand(), stack);
     }
     else if (stack.getItem() == ModRegistry.GEARS.get() && targetType == EntityType.IRON_GOLEM) {
-      IronGolemEntity trader = (IronGolemEntity) targetEnt;
+      IronGolem trader = (IronGolem) targetEnt;
       //do it 
       FriendGolem villagerChild = ModRegistry.GOLEM.get().create(world);
-      villagerChild.setPosition(pos.getX(), pos.getY(), pos.getZ());
-      world.addEntity(villagerChild);
+      villagerChild.setPos(pos.getX(), pos.getY(), pos.getZ());
+      world.addFreshEntity(villagerChild);
       //remove the other
       removeEntity(world, trader);
       this.onComplete(player, event.getHand(), stack);
     }
-    else if (stack.getItem() == ModRegistry.DARKNESS.get() && targetEnt instanceof WanderingTraderEntity) {
-      WanderingTraderEntity trader = (WanderingTraderEntity) targetEnt;
+    else if (stack.getItem() == ModRegistry.DARKNESS.get() && targetEnt instanceof WanderingTrader) {
+      WanderingTrader trader = (WanderingTrader) targetEnt;
       //do it 
-      EvokerEntity villagerChild = trader.func_233656_b_(EntityType.EVOKER, false);
-      world.addEntity(villagerChild);
+      Evoker villagerChild = trader.convertTo(EntityType.EVOKER, false);
+      world.addFreshEntity(villagerChild);
       //remove the other
       removeEntity(world, trader);
       this.onComplete(player, event.getHand(), stack);
     }
-    else if (stack.getItem() == ModRegistry.DARKNESS.get() && targetEnt instanceof WanderingTraderEntity) {
-      WanderingTraderEntity trader = (WanderingTraderEntity) targetEnt;
+    else if (stack.getItem() == ModRegistry.DARKNESS.get() && targetEnt instanceof WanderingTrader) {
+      WanderingTrader trader = (WanderingTrader) targetEnt;
       //do it 
-      EvokerEntity villagerChild = trader.func_233656_b_(EntityType.EVOKER, false);
-      world.addEntity(villagerChild);
+      Evoker villagerChild = trader.convertTo(EntityType.EVOKER, false);
+      world.addFreshEntity(villagerChild);
       //remove the other
       removeEntity(world, trader);
       this.onComplete(player, event.getHand(), stack);
     }
     else if (stack.getItem() == ModRegistry.DARKNESS.get() && targetType == EntityType.WANDERING_TRADER
-        && targetEnt instanceof WanderingTraderEntity) {
-          WanderingTraderEntity trader = (WanderingTraderEntity) targetEnt;
-          //do it 
-          IllusionerEntity villagerChild = trader.func_233656_b_(EntityType.ILLUSIONER, false);
-          world.addEntity(villagerChild);
-          //remove the other
-          removeEntity(world, trader);
-          this.onComplete(player, event.getHand(), stack);
-        }
-    else if (stack.getItem() == ModRegistry.DARKNESS.get() && targetEnt instanceof CowEntity) {
-      CowEntity trader = (CowEntity) targetEnt;
+        && targetEnt instanceof WanderingTrader) {
+      WanderingTrader trader = (WanderingTrader) targetEnt;
+      //do it
+      Illusioner villagerChild = trader.convertTo(EntityType.ILLUSIONER, false);
+      world.addFreshEntity(villagerChild);
+      //remove the other
+      removeEntity(world, trader);
+      this.onComplete(player, event.getHand(), stack);
+    }
+    else if (stack.getItem() == ModRegistry.DARKNESS.get() && targetEnt instanceof Cow) {
+      Cow trader = (Cow) targetEnt;
       //do it 
-      RavagerEntity villagerChild = trader.func_233656_b_(EntityType.RAVAGER, false);
-      world.addEntity(villagerChild);
+      Ravager villagerChild = trader.convertTo(EntityType.RAVAGER, false);
+      world.addFreshEntity(villagerChild);
       //remove the other
       removeEntity(world, trader);
       this.onComplete(player, event.getHand(), stack);
     }
     else if (stack.getItem() == ModRegistry.DARKNESS.get() && targetType == EntityType.VILLAGER) {
-      VillagerEntity vil = (VillagerEntity) targetEnt;
+      Villager vil = (Villager) targetEnt;
       //do it 
-      WitchEntity villagerChild = vil.func_233656_b_(EntityType.WITCH, false);
-      world.addEntity(villagerChild);
+      Witch villagerChild = vil.convertTo(EntityType.WITCH, false);
+      world.addFreshEntity(villagerChild);
       //remove the other
       removeEntity(world, vil);
       this.onComplete(player, event.getHand(), stack);
     }
     else if (stack.getItem() == ModRegistry.DARKNESS.get() && targetType == EntityType.PILLAGER) {
-      PillagerEntity vil = (PillagerEntity) targetEnt;
+      Pillager vil = (Pillager) targetEnt;
       //do it 
-      EvokerEntity villagerChild = vil.func_233656_b_(EntityType.EVOKER, false);
-      world.addEntity(villagerChild);
+      Evoker villagerChild = vil.convertTo(EntityType.EVOKER, false);
+      world.addFreshEntity(villagerChild);
       //remove the other
       removeEntity(world, vil);
       this.onComplete(player, event.getHand(), stack);
@@ -161,61 +161,61 @@ public class ItemEvents {
       //guard REVERSO
       GuardVindicator trader = (GuardVindicator) targetEnt;
       //make it back into pillager
-      PillagerEntity child = EntityType.PILLAGER.create(world);
-      child.setPosition(pos.getX(), pos.getY(), pos.getZ());
-      child.setHomePosAndDistance(pos, world.rand.nextInt(20) + 10);
-      world.addEntity(child);
+      Pillager child = EntityType.PILLAGER.create(world);
+      child.setPos(pos.getX(), pos.getY(), pos.getZ());
+      child.restrictTo(pos, world.random.nextInt(20) + 10);
+      world.addFreshEntity(child);
       //remove the other
       removeEntity(world, trader);
       this.onComplete(player, event.getHand(), stack);
     }
-    else if (stack.getItem() == ModRegistry.GUARD_ITEM.get() && targetEnt instanceof AbstractRaiderEntity) {
+    else if (stack.getItem() == ModRegistry.GUARD_ITEM.get() && targetEnt instanceof Raider) {
       //pillager into guard
-      AbstractRaiderEntity trader = (AbstractRaiderEntity) targetEnt;
+      Raider trader = (Raider) targetEnt;
       GuardVindicator villagerChild = ModRegistry.GUARDENTITY.get().create(world);
-      villagerChild.setPosition(pos.getX(), pos.getY(), pos.getZ());
-      villagerChild.setHomePosAndDistance(pos, 30);
-      world.addEntity(villagerChild);
+      villagerChild.setPos(pos.getX(), pos.getY(), pos.getZ());
+      villagerChild.restrictTo(pos, 30);
+      world.addFreshEntity(villagerChild);
       //remove the other
       removeEntity(world, trader);
       this.onComplete(player, event.getHand(), stack);
     }
     else if (stack.getItem() == ModRegistry.GUARD_ITEM.get() && targetType == EntityType.WITCH) {
-      WitchEntity trader = (WitchEntity) targetEnt;
+      Witch trader = (Witch) targetEnt;
       //witch can get cured too
       GuardVindicator villagerChild = ModRegistry.GUARDENTITY.get().create(world);
-      villagerChild.setPosition(pos.getX(), pos.getY(), pos.getZ());
-      villagerChild.setHomePosAndDistance(pos, 30);
-      world.addEntity(villagerChild);
+      villagerChild.setPos(pos.getX(), pos.getY(), pos.getZ());
+      villagerChild.restrictTo(pos, 30);
+      world.addFreshEntity(villagerChild);
       //remove the other
       removeEntity(world, trader);
       this.onComplete(player, event.getHand(), stack);
     }
     else if (stack.getItem() == ModRegistry.KEY.get() && targetType == EntityType.TRADER_LLAMA) {
-      TraderLlamaEntity tradeLlama = (TraderLlamaEntity) targetEnt;
+      TraderLlama tradeLlama = (TraderLlama) targetEnt;
       //do it 
-      LlamaEntity llamaChild = tradeLlama.func_233656_b_(EntityType.LLAMA, false);
-      world.addEntity(llamaChild);
+      Llama llamaChild = tradeLlama.convertTo(EntityType.LLAMA, false);
+      world.addFreshEntity(llamaChild);
       //remove the other
       removeEntity(world, tradeLlama);
       this.onComplete(player, event.getHand(), stack);
     }
     else if (stack.getItem() == ModRegistry.RESTOCK.get() && targetType == EntityType.VILLAGER) {
       //
-      VillagerEntity vil = (VillagerEntity) targetEnt;
+      Villager vil = (Villager) targetEnt;
       restock(vil);
       this.onComplete(player, event.getHand(), stack);
     }
     else if (stack.getItem() == ModRegistry.FORGET.get() && targetType == EntityType.VILLAGER) {
       // 
-      VillagerEntity vil = (VillagerEntity) targetEnt;
+      Villager vil = (Villager) targetEnt;
       // ModMain.LOGGER.info("forget trades on " + vil.getVillagerData());
-      vil.setVillagerData(vil.getVillagerData().withProfession(VillagerProfession.NONE).withLevel(0));
+      vil.setVillagerData(vil.getVillagerData().setProfession(VillagerProfession.NONE).setLevel(0));
       //
       this.onComplete(player, event.getHand(), stack);
     }
     else if (stack.getItem() == ModRegistry.KNOWLEDGE.get() && targetType == EntityType.VILLAGER) {
-      VillagerEntity vil = (VillagerEntity) targetEnt;
+      Villager vil = (Villager) targetEnt;
       //apprentice = 2
       //journeyman = 3
       //expert = 4
@@ -224,68 +224,69 @@ public class ItemEvents {
       //expert is ?
       int level = vil.getVillagerData().getLevel();
       if (level < 5) {
-        vil.levelUp();
+        vil.increaseMerchantCareer();
         //          vil.setVillagerData(vil.getVillagerData().withLevel(level + 1));
         this.onComplete(player, event.getHand(), stack);
         //    ModMain.LOGGER.info(" after l " + vil.getVillagerData().getLevel());
       }
     }
     else if (stack.getItem() == ModRegistry.BRIBE.get() && targetType == EntityType.VILLAGER) {
-      VillagerEntity vil = (VillagerEntity) targetEnt;
+      Villager vil = (Villager) targetEnt;
       if (vil.getPlayerReputation(player) < 100) {
-        if (!world.isRemote) {
+        if (!world.isClientSide) {
           int before = vil.getPlayerReputation(player);
-          vil.updateReputation(IReputationType.TRADE, player);
-          vil.updateReputation(IReputationType.TRADE, player);
-          vil.updateReputation(IReputationType.TRADE, player);
+          vil.onReputationEventFrom(ReputationEventType.TRADE, player);
+          vil.onReputationEventFrom(ReputationEventType.TRADE, player);
+          vil.onReputationEventFrom(ReputationEventType.TRADE, player);
           int diff = vil.getPlayerReputation(player) - before;
           //   ModMain.LOGGER.info(" reputation after " + vil.getPlayerReputation(player));
-          TranslationTextComponent t = new TranslationTextComponent(stack.getTranslationKey() + ".rep");
-          t.appendString(diff + "");
-          player.sendStatusMessage(t, false);
+          TranslatableComponent t = new TranslatableComponent(stack.getDescriptionId() + ".rep");
+          t.append(diff + "");
+          player.displayClientMessage(t, false);
         }
         this.onComplete(player, event.getHand(), stack);
       }
     }
   }
 
-  private void removeEntity(World world, Entity trader) {
-    if (world instanceof ServerWorld) {
-      ((ServerWorld) world).removeEntity(trader);
+  private void removeEntity(Level world, Entity trader) {
+    if (world instanceof ServerLevel) {
+      //despawn
+      ((ServerLevel) world).removeEntity(trader);
     }
   }
 
-  private void onComplete(PlayerEntity player, Hand hand, ItemStack stack) {
-    player.swingArm(hand);
-    player.getCooldownTracker().setCooldown(stack.getItem(), 30);
-    if (player.world.isRemote) {
-      player.sendStatusMessage(new TranslationTextComponent(stack.getTranslationKey() + ".used"), false);
+  private void onComplete(Player player, InteractionHand hand, ItemStack stack) {
+    player.swing(hand);
+    player.getCooldowns().addCooldown(stack.getItem(), 30);
+    if (player.level.isClientSide) {
+      player.displayClientMessage(new TranslatableComponent(stack.getDescriptionId() + ".used"), false);
     }
     if (!player.isCreative()) {
       stack.shrink(1);
     }
   }
 
-  private void restock(VillagerEntity vil) {
+  private void restock(Villager vil) {
     vil.restock();
-    CompoundNBT compound = new CompoundNBT();
+    CompoundTag compound = new CompoundTag();
     compound.putLong("LastRestock", 0);
-    vil.readAdditional(compound);
+    vil.readAdditionalSaveData(compound);
   }
 
   @SubscribeEvent
   public void onVillagerStart(EntityJoinWorldEvent event) {
-    if (event.getEntity() instanceof VillagerEntity) {
-      tryAddAi((VillagerEntity) event.getEntity());
+    if (event.getEntity() instanceof Villager) {
+      tryAddAi((Villager) event.getEntity());
     }
   }
 
-  private void tryAddAi(VillagerEntity vil) {
-    if (vil.goalSelector.goals.stream().anyMatch((g) -> g.getGoal() instanceof TemptGoal)) {
+  private void tryAddAi(Villager vil) {
+    if (vil.goalSelector.availableGoals.stream().anyMatch((g) -> g.getGoal() instanceof TemptGoal)) {
       return; //already has 
     }
     try { // i must be new, i don't have 
-      vil.goalSelector.addGoal(2, new TemptGoal(vil, 0.666, Ingredient.fromItems(ModRegistry.LURE.get()), false));
+      vil.goalSelector.addGoal(2, new TemptGoal(vil, 0.666, Ingredient.of(ModRegistry.LURE.get()), false));
     }
     catch (Exception e) {
       //don't 
