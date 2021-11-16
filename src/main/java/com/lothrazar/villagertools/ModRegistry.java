@@ -51,4 +51,5 @@ public class ModRegistry {
   public static <T extends Entity> EntityType<T> register(String id, EntityType.Builder<T> builder) {
     return builder.build(id);
   }
+  //  public static final RegistryObject<Item> GUARD_SPAWN_EGG = ITEMS.register("guard_spawn_egg", () -> new SpawnEggItem(() -> GUARDENTITY.get(), 0xFF649832, 0xFF39581a, new Item.Properties())); 
 }

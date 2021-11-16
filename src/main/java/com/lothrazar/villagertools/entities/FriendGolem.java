@@ -56,11 +56,12 @@ public class FriendGolem extends IronGolemEntity {
     this.goalSelector.addGoal(2, new TemptGoal(this, 0.666, Ingredient.fromItems(ModRegistry.LURE.get()), false));
     this.targetSelector.addGoal(1, new DefendVillageTargetGoal(this));
     this.targetSelector.addGoal(2, new HurtByTargetGoal(this, PlayerEntity.class));
-    //    this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, 10, true, false, this::func_233680_b_));
-    this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, MobEntity.class, 5, false, false, (p_234199_0_) -> {
-      return p_234199_0_ instanceof IMob
-          && !(p_234199_0_ instanceof CreeperEntity)
-          && !(p_234199_0_ instanceof GuardVindicator);
+    this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, MobEntity.class, 5, false, false, (e) -> {
+      return e instanceof IMob
+          && !(e instanceof IronGolemEntity)
+          && !(e instanceof CreeperEntity)
+          && !(e instanceof FriendGolem)
+          && !(e instanceof GuardVindicator);
     }));
     this.targetSelector.addGoal(4, new ResetAngerGoal<>(this, false));
   }
