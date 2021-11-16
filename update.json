@@ -7,6 +7,6 @@
   "1.16.5": {
     "1.0.0": "Release ",
     "1.0.1":"Fix bug where If you use an infernal shard on a witch it crashes the game.  Fixed typo in lang file.  Fix guard not spawning in some cases using the Cursed Pillager Amulet  ",
-    "1.0.2":"Iron Golems no longer attack Guards.  Upgraded Town Guard AI to match the same as the friendly Golem; guard will now fight back against Illagers, vindicators, raiders, etc. "
+    "1.0.2":"Iron Golems and Town Guards are at peace.  Upgraded Town Guard AI to match the same as the friendly Golem; guard will now fight back against Illagers, vindicators, raiders, etc. "
   }
 }

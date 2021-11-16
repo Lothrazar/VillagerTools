@@ -30,42 +30,51 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class ItemEvents {
-  //
-  //  @SubscribeEvent
-  //  public void onLivingUpdateEvent(LivingUpdateEvent event) {
-  //    if (event.getEntityLiving() instanceof IronGolemEntity && event.getEntityLiving().getAttackingEntity() instanceof GuardVindicator) {
-  //      AngerUtils.makeCalmGolem((IronGolemEntity) event.getEntityLiving());
-  //      System.out.println("DISABLE attack target of iron golem " + event.getEntityLiving());
-  //    }
-  //    if (event.getEntityLiving() instanceof GuardVindicator && event.getEntityLiving().getAttackingEntity() instanceof IronGolemEntity) {
-  //      AngerUtils.makeCalm((GuardVindicator) event.getEntityLiving());
-  //      //      System.out.println("DISABLE attack target of  GUARD" + event.getEntityLiving()); 
-  //    }
-  //  }
-  //
-  //  @SubscribeEvent
-  //  public void onLivingHurtEvent(LivingHurtEvent event) {
-  //    if (event.getEntityLiving() instanceof GuardVindicator && event.getSource() != null
-  //        && event.getSource().getTrueSource() instanceof IronGolemEntity) {
-  //      // golem attacked the thing
-  //      //      System.out.println("CANCEL a LivingHurtEvent of golem vs vindic" + event.getEntityLiving());
-  //      //      event.setAmount(0);
-  //      //      event.setCanceled(true);
-  //    }
-  //  }
+
+  @SubscribeEvent
+  public void onLivingSetAttackTargetEvent(LivingSetAttackTargetEvent event) {}
+
+  @SubscribeEvent
+  public void onLivingAttackEvent(LivingAttackEvent event) {
+    if (event.getEntityLiving() instanceof GuardVindicator && event.getSource() != null && event.getSource().getTrueSource() instanceof IronGolemEntity) {
+      // golem attacked the thing  
+      event.setCanceled(true);
+    }
+  }
+
+  @SubscribeEvent
+  public void onLivingUpdateEvent(LivingUpdateEvent event) {
+    if (event.getEntityLiving() instanceof IronGolemEntity) {
+      IronGolemEntity golem = (IronGolemEntity) event.getEntityLiving();
+      if (golem.getAttackTarget() instanceof GuardVindicator) {
+        AngerUtils.makeCalmGolem(golem);
+      }
+    }
+  }
   //
   //  @SubscribeEvent
   //  public void onLivingDamageEvent(LivingDamageEvent event) {
   //    if (event.getEntityLiving() instanceof GuardVindicator && event.getSource() != null
   //        && event.getSource().getTrueSource() instanceof IronGolemEntity) {
-  //      // golem attacked the thing
-  //      System.out.println("CANCEL a damage of golem vs vindic" + event.getEntityLiving());
+  //      // golem attacked the thing 
   //      event.setAmount(0);
   //      event.setCanceled(true);
+  //    }
+  //  }
+  //  @SubscribeEvent
+  //  public void onLivingHurtEvent(LivingHurtEvent event) {
+  //    if (event.getEntityLiving() instanceof GuardVindicator && event.getSource() != null
+  //        && event.getSource().getTrueSource() instanceof IronGolemEntity) {
+  //      // damage source is the golem attacked the thing
+  //      event.setAmount(0);
+  //      //      event.setCanceled(true);
   //    }
   //  }
 
