@@ -1,6 +1,7 @@
 package com.lothrazar.villagertools.entities;
 
 import com.lothrazar.villagertools.ModRegistry;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -51,13 +52,24 @@ public class FriendGolem extends IronGolem {
     this.goalSelector.addGoal(2, new TemptGoal(this, 0.666, Ingredient.of(ModRegistry.LURE.get()), false));
     this.targetSelector.addGoal(1, new DefendVillageTargetGoal(this));
     this.targetSelector.addGoal(2, new HurtByTargetGoal(this, Player.class));
-    //    this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, 10, true, false, this::isAngryAt));
-    this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Mob.class, 5, false, false, (p_234199_0_) -> {
-      return p_234199_0_ instanceof Enemy
-          && !(p_234199_0_ instanceof Creeper)
-          && !(p_234199_0_ instanceof GuardVindicator);
+    this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Mob.class, 5, false, false, (e) -> {
+      return e instanceof Enemy
+          && !(e instanceof IronGolem)
+          && !(e instanceof Creeper)
+          && !(e instanceof GuardVindicator);
     }));
     this.targetSelector.addGoal(4, new ResetUniversalAngerTargetGoal<>(this, false));
+  }
+
+  @Override
+  public boolean isAlliedTo(Entity entityIn) {
+    if (entityIn instanceof Player) {
+      return true;
+    }
+    if (this.getTeam() != null && this.getTeam().isAlliedTo(entityIn.getTeam())) {
+      return true;
+    }
+    return entityIn instanceof IronGolem || entityIn instanceof GuardVindicator;
   }
 
   @Override

@@ -30,10 +30,53 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class ItemEvents {
+
+  @SubscribeEvent
+  public void onLivingSetAttackTargetEvent(LivingSetAttackTargetEvent event) {}
+
+  @SubscribeEvent
+  public void onLivingAttackEvent(LivingAttackEvent event) {
+    if (event.getEntityLiving() instanceof GuardVindicator && event.getSource() != null && event.getSource().getDirectEntity() instanceof IronGolem) {
+      // golem attacked the thing  
+      event.setCanceled(true);
+    }
+  }
+
+  @SubscribeEvent
+  public void onLivingUpdateEvent(LivingUpdateEvent event) {
+    if (event.getEntityLiving() instanceof IronGolem) {
+      IronGolem golem = (IronGolem) event.getEntityLiving();
+      if (golem.getTarget() instanceof GuardVindicator) {
+        AngerUtils.makeCalmGolem(golem);
+      }
+    }
+  }
+  //
+  //  @SubscribeEvent
+  //  public void onLivingDamageEvent(LivingDamageEvent event) {
+  //    if (event.getEntityLiving() instanceof GuardVindicator && event.getSource() != null
+  //        && event.getSource().getTrueSource() instanceof IronGolemEntity) {
+  //      // golem attacked the thing 
+  //      event.setAmount(0);
+  //      event.setCanceled(true);
+  //    }
+  //  }
+  //  @SubscribeEvent
+  //  public void onLivingHurtEvent(LivingHurtEvent event) {
+  //    if (event.getEntityLiving() instanceof GuardVindicator && event.getSource() != null
+  //        && event.getSource().getTrueSource() instanceof IronGolemEntity) {
+  //      // damage source is the golem attacked the thing
+  //      event.setAmount(0);
+  //      //      event.setCanceled(true);
+  //    }
+  //  }
 
   @SubscribeEvent
   public void onInteract(PlayerInteractEvent.RightClickBlock event) {
@@ -122,14 +165,14 @@ public class ItemEvents {
     }
     else if (stack.getItem() == ModRegistry.DARKNESS.get() && targetType == EntityType.WANDERING_TRADER
         && targetEnt instanceof WanderingTrader) {
-      WanderingTrader trader = (WanderingTrader) targetEnt;
-      //do it
-      Illusioner villagerChild = trader.convertTo(EntityType.ILLUSIONER, false);
-      world.addFreshEntity(villagerChild);
-      //remove the other
-      removeEntity(world, trader);
-      this.onComplete(player, event.getHand(), stack);
-    }
+          WanderingTrader trader = (WanderingTrader) targetEnt;
+          //do it
+          Illusioner villagerChild = trader.convertTo(EntityType.ILLUSIONER, false);
+          world.addFreshEntity(villagerChild);
+          //remove the other
+          removeEntity(world, trader);
+          this.onComplete(player, event.getHand(), stack);
+        }
     else if (stack.getItem() == ModRegistry.DARKNESS.get() && targetEnt instanceof Cow) {
       Cow trader = (Cow) targetEnt;
       //do it 

@@ -1,26 +1,23 @@
 package com.lothrazar.villagertools.entities;
 
 import com.lothrazar.villagertools.ModRegistry;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.GolemRandomStrollInVillageGoal;
+import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.world.entity.ai.goal.MoveBackToVillageGoal;
 import net.minecraft.world.entity.ai.goal.MoveTowardsTargetGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.TemptGoal;
-import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
-import net.minecraft.world.entity.monster.AbstractIllager;
-import net.minecraft.world.entity.monster.Ravager;
-import net.minecraft.world.entity.monster.Skeleton;
-import net.minecraft.world.entity.monster.Spider;
+import net.minecraft.world.entity.animal.IronGolem;
+import net.minecraft.world.entity.monster.Creeper;
+import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.monster.Vindicator;
-import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
@@ -33,24 +30,30 @@ public class GuardVindicator extends Vindicator {
 
   @Override
   protected void registerGoals() {
-    //    super.registerGoals(); 
-    this.goalSelector.addGoal(8, new LookAtPlayerGoal(this, Player.class, 8.0F));
-    this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
-    //    this.goalSelector.addGoal(6, new MoveThroughVillageGoal(this, 1.0D, true, 4, () -> false));
+    this.goalSelector.addGoal(0, new FloatGoal(this));
     this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.0D, true));
-    this.goalSelector.addGoal(2, new TemptGoal(this, 0.666, Ingredient.of(ModRegistry.LURE.get()), false));
     this.goalSelector.addGoal(2, new MoveTowardsTargetGoal(this, 0.9D, 32.0F));
-    this.goalSelector.addGoal(2, new MoveBackToVillageGoal(this, 0.6D, false));
-    this.goalSelector.addGoal(4, new GolemRandomStrollInVillageGoal(this, 0.6D));
-    this.goalSelector.addGoal(7, new WaterAvoidingRandomStrollGoal(this, 1.0D));
-    //    this.targetSelector.addGoal(1, new DefendVillageTargetGoal(this));
-    this.targetSelector.addGoal(1, (new HurtByTargetGoal(this, Player.class)).setAlertOthers(GuardVindicator.class));
-    this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Spider.class, true));
-    this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Skeleton.class, true));
-    this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Zombie.class, false));
-    this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Vindicator.class, true));
-    this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, AbstractIllager.class, true));
-    this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Ravager.class, true));
+    this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 6.0F));
+    this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
+    this.goalSelector.addGoal(2, new TemptGoal(this, 0.666, Ingredient.of(ModRegistry.LURE.get()), false));
+    this.targetSelector.addGoal(2, new HurtByTargetGoal(this, Player.class));
+    this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Mob.class, 5, false, false, (e) -> {
+      return e instanceof Enemy
+          && !(e instanceof IronGolem)
+          && !(e instanceof Creeper)
+          && !(e instanceof GuardVindicator);
+    }));
+  }
+
+  @Override
+  public boolean isAlliedTo(Entity entityIn) {
+    if (entityIn instanceof Player) {
+      return true;
+    }
+    if (this.getTeam() != null && this.getTeam().isAlliedTo(entityIn.getTeam())) {
+      return true;
+    }
+    return entityIn instanceof IronGolem || entityIn instanceof GuardVindicator;
   }
 
   @Override

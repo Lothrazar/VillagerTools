@@ -57,6 +57,7 @@ public class ModRegistry {
     return builder.build(id);
   }
 
+
   @SubscribeEvent
   public static void onEntityAttributeCreationEvent(EntityAttributeCreationEvent event) {
     event.put(ModRegistry.GOLEM.get(), FriendGolem.createAttributes().build());
@@ -72,4 +73,8 @@ public class ModRegistry {
     //    RenderingRegistry.registerEntityRenderingHandler(ModRegistry.GOLEM.get(), FriendGolem.CactusGolemRenderer::new);
     //    RenderingRegistry.registerEntityRenderingHandler(ModRegistry.GUARDENTITY.get(), GuardVindicator.GuardRender::new);
   }
+
+  //  public static final RegistryObject<Item> GUARD_SPAWN_EGG = ITEMS.register("guard_spawn_egg", () -> new SpawnEggItem(() -> GUARDENTITY.get(), 0xFF649832, 0xFF39581a, new Item.Properties())); 
+
+
 }
