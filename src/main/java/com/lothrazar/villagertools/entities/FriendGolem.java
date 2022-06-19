@@ -73,7 +73,7 @@ public class FriendGolem extends IronGolem {
   }
 
   @Override
-  protected int getExperienceReward(Player player) {
+  public int getExperienceReward() {
     return 0;
   }
 

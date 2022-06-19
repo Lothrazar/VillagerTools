@@ -57,8 +57,8 @@ public class GuardVindicator extends Vindicator {
   }
 
   @Override
-  protected int getExperienceReward(Player player) {
-    return 0;
+  public int getExperienceReward() {
+    return 0 ;
   }
 
   @Override

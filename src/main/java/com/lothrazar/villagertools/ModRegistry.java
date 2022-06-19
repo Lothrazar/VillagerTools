@@ -49,32 +49,23 @@ public class ModRegistry {
   public static final RegistryObject<Item> CURE = ITEMS.register("cure", () -> new ItemVillager(new Item.Properties().stacksTo(64).tab(ModRegistry.TAB)));
   //
   public static final RegistryObject<EntityType<GuardVindicator>> GUARDENTITY = ENTITIES.register("guard", () -> register("guard",
-      EntityType.Builder.<GuardVindicator>of(GuardVindicator::new, MobCategory.MISC).sized(1.4F, 2.7F).clientTrackingRange(10)));
+      EntityType.Builder.<GuardVindicator> of(GuardVindicator::new, MobCategory.MISC).sized(1.4F, 2.7F).clientTrackingRange(10)));
   public static final RegistryObject<EntityType<FriendGolem>> GOLEM = ENTITIES.register("reinforced_golem", () -> register("reinforced_golem",
-      EntityType.Builder.<FriendGolem>of(FriendGolem::new, MobCategory.MISC).sized(1.4F, 2.7F).clientTrackingRange(10)));
+      EntityType.Builder.<FriendGolem> of(FriendGolem::new, MobCategory.MISC).sized(1.4F, 2.7F).clientTrackingRange(10)));
 
   public static <T extends Entity> EntityType<T> register(String id, EntityType.Builder<T> builder) {
     return builder.build(id);
   }
 
-
   @SubscribeEvent
   public static void onEntityAttributeCreationEvent(EntityAttributeCreationEvent event) {
     event.put(ModRegistry.GOLEM.get(), FriendGolem.createAttributes().build());
     event.put(ModRegistry.GUARDENTITY.get(), GuardVindicator.createAttributes().build());
-    //    DefaultAttributes.put(ModRegistry.GOLEM.get(), FriendGolem.createAttributes().build());
-    //    DefaultAttributes.put(ModRegistry.GUARDENTITY.get(), GuardVindicator.createAttributes().build());
   }
 
   @SubscribeEvent
   public static void entityRenderers(EntityRenderersEvent.RegisterRenderers event) {
     event.registerEntityRenderer(GOLEM.get(), FriendGolemRenderer::new);
     event.registerEntityRenderer(GUARDENTITY.get(), GuardRender::new);
-    //    RenderingRegistry.registerEntityRenderingHandler(ModRegistry.GOLEM.get(), FriendGolem.CactusGolemRenderer::new);
-    //    RenderingRegistry.registerEntityRenderingHandler(ModRegistry.GUARDENTITY.get(), GuardVindicator.GuardRender::new);
   }
-
-  //  public static final RegistryObject<Item> GUARD_SPAWN_EGG = ITEMS.register("guard_spawn_egg", () -> new SpawnEggItem(() -> GUARDENTITY.get(), 0xFF649832, 0xFF39581a, new Item.Properties())); 
-
-
 }

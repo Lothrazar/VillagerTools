@@ -4,7 +4,8 @@ import com.lothrazar.villagertools.entities.FriendGolem;
 import com.lothrazar.villagertools.entities.GuardVindicator;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
@@ -283,7 +284,7 @@ public class ItemEvents {
           vil.onReputationEventFrom(ReputationEventType.TRADE, player);
           int diff = vil.getPlayerReputation(player) - before;
           //   ModMain.LOGGER.info(" reputation after " + vil.getPlayerReputation(player));
-          TranslatableComponent t = new TranslatableComponent(stack.getDescriptionId() + ".rep");
+          MutableComponent t = Component.translatable(stack.getDescriptionId() + ".rep");
           t.append(diff + "");
           player.displayClientMessage(t, false);
         }
@@ -293,9 +294,10 @@ public class ItemEvents {
   }
 
   private void removeEntity(Level world, Entity trader) {
-    if (world instanceof ServerLevel) {
+    if (world instanceof ServerLevel level) {
       //despawn
-      ((ServerLevel) world).removeEntity(trader);
+      //      trader.kill(); 
+      trader.remove(Entity.RemovalReason.DISCARDED);
     }
   }
 
@@ -303,7 +305,7 @@ public class ItemEvents {
     player.swing(hand);
     player.getCooldowns().addCooldown(stack.getItem(), 30);
     if (player.level.isClientSide) {
-      player.displayClientMessage(new TranslatableComponent(stack.getDescriptionId() + ".used"), false);
+      player.displayClientMessage(Component.translatable(stack.getDescriptionId() + ".used"), false);
     }
     if (!player.isCreative()) {
       stack.shrink(1);

@@ -20,13 +20,11 @@ public class ModMain {
   public ModMain() {
     //    ConfigManager.setup();
     FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
-    //    FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setupClient);
     IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
     ModRegistry.ITEMS.register(eventBus);
     ModRegistry.ENTITIES.register(eventBus);
   }
 
-  @SuppressWarnings("deprecation")
   private void setup(final FMLCommonSetupEvent event) {
     //now all blocks/items exist  
     MinecraftForge.EVENT_BUS.register(new ItemEvents());
