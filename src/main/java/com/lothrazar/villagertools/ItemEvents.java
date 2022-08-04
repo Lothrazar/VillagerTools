@@ -30,9 +30,9 @@ import net.minecraft.world.entity.raid.Raider;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
-import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingTickEvent;
 import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -44,16 +44,16 @@ public class ItemEvents {
 
   @SubscribeEvent
   public void onLivingAttackEvent(LivingAttackEvent event) {
-    if (event.getEntityLiving() instanceof GuardVindicator && event.getSource() != null && event.getSource().getDirectEntity() instanceof IronGolem) {
+    if (event.getEntity() instanceof GuardVindicator && event.getSource() != null && event.getSource().getDirectEntity() instanceof IronGolem) {
       // golem attacked the thing  
       event.setCanceled(true);
     }
   }
 
   @SubscribeEvent
-  public void onLivingUpdateEvent(LivingUpdateEvent event) {
-    if (event.getEntityLiving() instanceof IronGolem) {
-      IronGolem golem = (IronGolem) event.getEntityLiving();
+  public void onLivingUpdateEvent(LivingTickEvent event) {
+    if (event.getEntity() instanceof IronGolem) {
+      IronGolem golem = (IronGolem) event.getEntity();
       if (golem.getTarget() instanceof GuardVindicator) {
         AngerUtils.makeCalmGolem(golem);
       }
@@ -85,7 +85,7 @@ public class ItemEvents {
       return;
     }
     BlockPos pos = event.getPos().relative(event.getFace());
-    Player player = event.getPlayer();
+    Player player = event.getEntity();
     ItemStack stack = event.getItemStack();
     if (player.getCooldowns().isOnCooldown(stack.getItem())) {
       return;
@@ -113,7 +113,7 @@ public class ItemEvents {
   @SubscribeEvent
   public void onInteract(PlayerInteractEvent.EntityInteract event) {
     ItemStack stack = event.getItemStack();
-    Player player = event.getPlayer();
+    Player player = event.getEntity();
     if (player.getCooldowns().isOnCooldown(stack.getItem())) {
       return;
     }
@@ -320,7 +320,7 @@ public class ItemEvents {
   }
 
   @SubscribeEvent
-  public void onVillagerStart(EntityJoinWorldEvent event) {
+  public void onVillagerStart(EntityJoinLevelEvent event) {
     if (event.getEntity() instanceof Villager) {
       tryAddAi((Villager) event.getEntity());
     }

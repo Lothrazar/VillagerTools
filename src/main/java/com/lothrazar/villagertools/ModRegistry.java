@@ -33,7 +33,7 @@ public class ModRegistry {
     }
   };
   public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, ModMain.MODID);
-  public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, ModMain.MODID);
+  public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, ModMain.MODID);
   //
   public static final RegistryObject<Item> LURE = ITEMS.register("lure", () -> new ItemVillager(new Item.Properties().stacksTo(1).tab(ModRegistry.TAB)));
   public static final RegistryObject<Item> GEARS = ITEMS.register("gears", () -> new ItemVillager(new Item.Properties().stacksTo(64).tab(ModRegistry.TAB)));
