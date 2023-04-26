@@ -1,6 +1,6 @@
 package com.lothrazar.villagertools.entities;
 
-import com.lothrazar.villagertools.ModRegistry;
+import com.lothrazar.villagertools.VillagerToolsRegistry;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
@@ -49,7 +49,7 @@ public class FriendGolem extends IronGolem {
     this.goalSelector.addGoal(5, new OfferFlowerGoal(this));
     this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 6.0F));
     this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
-    this.goalSelector.addGoal(2, new TemptGoal(this, 0.666, Ingredient.of(ModRegistry.LURE.get()), false));
+    this.goalSelector.addGoal(2, new TemptGoal(this, 0.666, Ingredient.of(VillagerToolsRegistry.LURE.get()), false));
     this.targetSelector.addGoal(1, new DefendVillageTargetGoal(this));
     this.targetSelector.addGoal(2, new HurtByTargetGoal(this, Player.class));
     this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Mob.class, 5, false, false, (e) -> {
