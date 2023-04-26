@@ -1,5 +1,6 @@
 package com.lothrazar.villagertools;
 
+import com.lothrazar.library.events.EventFlib;
 import com.lothrazar.villagertools.entities.FriendGolem;
 import com.lothrazar.villagertools.entities.GuardVindicator;
 import net.minecraft.core.BlockPos;
@@ -36,7 +37,7 @@ import net.minecraftforge.event.entity.living.LivingEvent.LivingTickEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
-public class ItemEvents {
+public class ItemEvents extends EventFlib {
 
   @SubscribeEvent
   public void onLivingAttackEvent(LivingAttackEvent event) {
