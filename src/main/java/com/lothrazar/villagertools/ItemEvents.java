@@ -68,7 +68,7 @@ public class ItemEvents extends EventFlib {
     if (player.getCooldowns().isOnCooldown(stack.getItem())) {
       return;
     }
-    Level world = player.level;
+    Level world = player.level();
     if (stack.getItem() == VillagerToolsRegistry.BADGE.get()) {
       Pillager child = EntityType.PILLAGER.create(world);
       child.setPos(pos.getX(), pos.getY(), pos.getZ());
@@ -95,7 +95,7 @@ public class ItemEvents extends EventFlib {
     if (player.getCooldowns().isOnCooldown(stack.getItem())) {
       return;
     }
-    Level world = player.level;
+    Level world = player.level();
     Entity targetEnt = event.getTarget();
     EntityType<?> targetType = targetEnt.getType();
     BlockPos pos = targetEnt.blockPosition();
@@ -282,7 +282,7 @@ public class ItemEvents extends EventFlib {
   private void onComplete(Player player, InteractionHand hand, ItemStack stack) {
     player.swing(hand);
     player.getCooldowns().addCooldown(stack.getItem(), 30);
-    if (player.level.isClientSide) {
+    if (player.level().isClientSide) {
       player.displayClientMessage(Component.translatable(stack.getDescriptionId() + ".used"), false);
     }
     if (!player.isCreative()) {

@@ -1,36 +1,49 @@
 package com.lothrazar.villagertools;
 
-import com.lothrazar.library.registry.RegistryFactory;
 import com.lothrazar.villagertools.entities.FriendGolem;
 import com.lothrazar.villagertools.entities.FriendGolemRenderer;
 import com.lothrazar.villagertools.entities.GuardRender;
 import com.lothrazar.villagertools.entities.GuardVindicator;
 import com.lothrazar.villagertools.item.ItemVillager;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegisterEvent;
 import net.minecraftforge.registries.RegistryObject;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class VillagerToolsRegistry {
 
   public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, VillagerToolsMod.MODID);
+  public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, VillagerToolsMod.MODID);
+  private static final ResourceKey<CreativeModeTab> TAB = ResourceKey.create(Registries.CREATIVE_MODE_TAB, new ResourceLocation(VillagerToolsMod.MODID, "tab"));
 
   @SubscribeEvent
-  public static void buildContents(CreativeModeTabEvent.Register event) {
-    RegistryFactory.buildTab(event, VillagerToolsMod.MODID, LURE.get().asItem(), ITEMS);
+  public static void onCreativeModeTabRegister(RegisterEvent event) {
+    event.register(Registries.CREATIVE_MODE_TAB, helper -> {
+      helper.register(TAB, CreativeModeTab.builder().icon(() -> new ItemStack(LURE.get()))
+          .title(Component.translatable("itemGroup." + VillagerToolsMod.MODID))
+          .displayItems((enabledFlags, populator) -> {
+            for (RegistryObject<Item> entry : ITEMS.getEntries()) {
+              populator.accept(entry.get());
+            }
+          }).build());
+    });
   }
 
-  public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, VillagerToolsMod.MODID);
-  //
   public static final RegistryObject<Item> LURE = ITEMS.register("lure", () -> new ItemVillager(new Item.Properties().stacksTo(1)));
   public static final RegistryObject<Item> GEARS = ITEMS.register("gears", () -> new ItemVillager(new Item.Properties().stacksTo(64)));
   public static final RegistryObject<Item> BRIBE = ITEMS.register("bribe", () -> new ItemVillager(new Item.Properties().stacksTo(64)));
