@@ -26,6 +26,7 @@ public class GuardVindicator extends Vindicator {
 
   public GuardVindicator(EntityType<? extends Vindicator> t, Level w) {
     super(t, w);
+    this.xpReward = 0;
   }
 
   @Override
@@ -54,16 +55,6 @@ public class GuardVindicator extends Vindicator {
       return true;
     }
     return entityIn instanceof IronGolem || entityIn instanceof GuardVindicator;
-  }
-
-  @Override
-  public int getExperienceReward() {
-    return 0 ;
-  }
-
-  @Override
-  public boolean canBreatheUnderwater() {
-    return true;
   }
 
   public static AttributeSupplier.Builder createAttributes() {

@@ -31,24 +31,24 @@ import net.minecraft.world.entity.raid.Raider;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.event.entity.EntityJoinLevelEvent;
-import net.minecraftforge.event.entity.living.LivingAttackEvent;
-import net.minecraftforge.event.entity.living.LivingEvent.LivingTickEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
+import net.neoforged.neoforge.event.tick.EntityTickEvent;
 
 public class ItemEvents extends EventFlib {
 
   @SubscribeEvent
-  public void onLivingAttackEvent(LivingAttackEvent event) {
+  public void onLivingAttackEvent(LivingIncomingDamageEvent event) {
     if (event.getEntity() instanceof GuardVindicator && event.getSource() != null && event.getSource().getDirectEntity() instanceof IronGolem) {
-      // golem attacked the thing  
+      // golem attacked the thing
       event.setCanceled(true);
     }
   }
 
   @SubscribeEvent
-  public void onLivingUpdateEvent(LivingTickEvent event) {
+  public void onLivingUpdateEvent(EntityTickEvent.Pre event) {
     if (event.getEntity() instanceof IronGolem) {
       IronGolem golem = (IronGolem) event.getEntity();
       if (golem.getTarget() instanceof GuardVindicator) {
@@ -107,7 +107,7 @@ public class ItemEvents extends EventFlib {
     }
     else if (stack.getItem() == VillagerToolsRegistry.CONTRACT.get() && targetEnt instanceof WanderingTrader) {
       WanderingTrader trader = (WanderingTrader) targetEnt;
-      //do it 
+      //do it
       Villager villagerChild = trader.convertTo(EntityType.VILLAGER, false);
       world.addFreshEntity(villagerChild);
       //remove the other
@@ -116,7 +116,7 @@ public class ItemEvents extends EventFlib {
     }
     else if (stack.getItem() == VillagerToolsRegistry.GEARS.get() && targetType == EntityType.IRON_GOLEM) {
       IronGolem trader = (IronGolem) targetEnt;
-      //do it 
+      //do it
       FriendGolem villagerChild = VillagerToolsRegistry.GOLEM.get().create(world);
       villagerChild.setPos(pos.getX(), pos.getY(), pos.getZ());
       world.addFreshEntity(villagerChild);
@@ -126,35 +126,16 @@ public class ItemEvents extends EventFlib {
     }
     else if (stack.getItem() == VillagerToolsRegistry.DARKNESS.get() && targetEnt instanceof WanderingTrader) {
       WanderingTrader trader = (WanderingTrader) targetEnt;
-      //do it 
+      //do it
       Evoker villagerChild = trader.convertTo(EntityType.EVOKER, false);
       world.addFreshEntity(villagerChild);
       //remove the other
       removeEntity(world, trader);
       this.onComplete(player, event.getHand(), stack);
     }
-    else if (stack.getItem() == VillagerToolsRegistry.DARKNESS.get() && targetEnt instanceof WanderingTrader) {
-      WanderingTrader trader = (WanderingTrader) targetEnt;
-      //do it 
-      Evoker villagerChild = trader.convertTo(EntityType.EVOKER, false);
-      world.addFreshEntity(villagerChild);
-      //remove the other
-      removeEntity(world, trader);
-      this.onComplete(player, event.getHand(), stack);
-    }
-    else if (stack.getItem() == VillagerToolsRegistry.DARKNESS.get() && targetType == EntityType.WANDERING_TRADER
-        && targetEnt instanceof WanderingTrader) {
-          WanderingTrader trader = (WanderingTrader) targetEnt;
-          //do it
-          Illusioner villagerChild = trader.convertTo(EntityType.ILLUSIONER, false);
-          world.addFreshEntity(villagerChild);
-          //remove the other
-          removeEntity(world, trader);
-          this.onComplete(player, event.getHand(), stack);
-        }
     else if (stack.getItem() == VillagerToolsRegistry.DARKNESS.get() && targetEnt instanceof Cow) {
       Cow trader = (Cow) targetEnt;
-      //do it 
+      //do it
       Ravager villagerChild = trader.convertTo(EntityType.RAVAGER, false);
       world.addFreshEntity(villagerChild);
       //remove the other
@@ -163,7 +144,7 @@ public class ItemEvents extends EventFlib {
     }
     else if (stack.getItem() == VillagerToolsRegistry.DARKNESS.get() && targetType == EntityType.VILLAGER) {
       Villager vil = (Villager) targetEnt;
-      //do it 
+      //do it
       Witch villagerChild = vil.convertTo(EntityType.WITCH, false);
       world.addFreshEntity(villagerChild);
       //remove the other
@@ -172,7 +153,7 @@ public class ItemEvents extends EventFlib {
     }
     else if (stack.getItem() == VillagerToolsRegistry.DARKNESS.get() && targetType == EntityType.PILLAGER) {
       Pillager vil = (Pillager) targetEnt;
-      //do it 
+      //do it
       Evoker villagerChild = vil.convertTo(EntityType.EVOKER, false);
       world.addFreshEntity(villagerChild);
       //remove the other
@@ -215,7 +196,7 @@ public class ItemEvents extends EventFlib {
     }
     else if (stack.getItem() == VillagerToolsRegistry.KEY.get() && targetType == EntityType.TRADER_LLAMA) {
       TraderLlama tradeLlama = (TraderLlama) targetEnt;
-      //do it 
+      //do it
       Llama llamaChild = tradeLlama.convertTo(EntityType.LLAMA, false);
       world.addFreshEntity(llamaChild);
       //remove the other
@@ -229,7 +210,7 @@ public class ItemEvents extends EventFlib {
       this.onComplete(player, event.getHand(), stack);
     }
     else if (stack.getItem() == VillagerToolsRegistry.FORGET.get() && targetType == EntityType.VILLAGER) {
-      // 
+      //
       Villager vil = (Villager) targetEnt;
       // ModMain.LOGGER.info("forget trades on " + vil.getVillagerData());
       vil.setVillagerData(vil.getVillagerData().setProfession(VillagerProfession.NONE).setLevel(0));
@@ -274,7 +255,7 @@ public class ItemEvents extends EventFlib {
   private void removeEntity(Level world, Entity trader) {
     if (world instanceof ServerLevel level) {
       //despawn
-      //      trader.kill(); 
+      //      trader.kill();
       trader.remove(Entity.RemovalReason.DISCARDED);
     }
   }
@@ -306,13 +287,13 @@ public class ItemEvents extends EventFlib {
 
   private void tryAddAi(Villager vil) {
     if (vil.goalSelector.availableGoals.stream().anyMatch((g) -> g.getGoal() instanceof TemptGoal)) {
-      return; //already has 
+      return; //already has
     }
-    try { // i must be new, i don't have 
+    try { // i must be new, i don't have
       vil.goalSelector.addGoal(2, new TemptGoal(vil, 0.666, Ingredient.of(VillagerToolsRegistry.LURE.get()), false));
     }
     catch (Exception e) {
-      //don't 
+      //don't
     }
   }
 }

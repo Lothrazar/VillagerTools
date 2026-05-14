@@ -1,0 +1,16 @@
+{
+  "type": "crafting_shaped",
+  "pattern": [
+    "yxy",
+    " p ",
+    " y "
+  ],
+  "key": {
+    "p": {"item": "minecraft:shield"},
+    "x": {"item": "villagertools:darkness"},
+    "y": {"item": "villagertools:restock"}
+  },
+  "result": {
+    "id": "villagertools:badge"
+  }
+}
