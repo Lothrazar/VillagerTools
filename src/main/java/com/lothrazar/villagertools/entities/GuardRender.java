@@ -8,7 +8,7 @@ import net.minecraft.world.entity.monster.Vindicator;
 @SuppressWarnings("hiding")
 public class GuardRender<GuardVindicator> extends VindicatorRenderer {
 
-  private static final ResourceLocation TXT = new ResourceLocation(VillagerToolsMod.MODID, "textures/entity/guard.png");
+  private static final ResourceLocation TXT = ResourceLocation.fromNamespaceAndPath(VillagerToolsMod.MODID, "textures/entity/guard.png");
 
   public GuardRender(EntityRendererProvider.Context ctx) {
     super(ctx);

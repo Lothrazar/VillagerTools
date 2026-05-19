@@ -11,7 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public class FriendGolemRenderer extends MobRenderer<FriendGolem, IronGolemModel<FriendGolem>> {
 
-  private static final ResourceLocation TXT = new ResourceLocation(VillagerToolsMod.MODID, "textures/entity/reinforced_golem.png");
+  private static final ResourceLocation TXT = ResourceLocation.fromNamespaceAndPath(VillagerToolsMod.MODID, "textures/entity/reinforced_golem.png");
 
   public FriendGolemRenderer(EntityRendererProvider.Context ctx) {
     super(ctx, new IronGolemModel<>(ctx.bakeLayer(ModelLayers.IRON_GOLEM)), 0.7F);
@@ -23,8 +23,8 @@ public class FriendGolemRenderer extends MobRenderer<FriendGolem, IronGolemModel
   }
 
   @Override
-  protected void setupRotations(FriendGolem g, PoseStack ps, float a, float b, float c) {
-    super.setupRotations(g, ps, a, b, c);
+  protected void setupRotations(FriendGolem g, PoseStack ps, float a, float b, float c, float scale) {
+    super.setupRotations(g, ps, a, b, c, scale);
     if (!(g.walkAnimation.speed() < 0.01D)) {
       //      float f = 13.0F;
       float f1 = g.walkAnimation.position(c) + 6.0F;

@@ -1,0 +1,16 @@
+{
+  "type": "crafting_shaped",
+  "pattern": [
+    "yxy",
+    " p ",
+    " y "
+  ],
+  "key": {
+    "p": {"item": "minecraft:book"},
+    "x": {"item": "minecraft:iron_nugget"},
+    "y": {"item": "villagertools:restock"}
+  },
+  "result": {
+    "id": "villagertools:knowledge"
+  }
+}

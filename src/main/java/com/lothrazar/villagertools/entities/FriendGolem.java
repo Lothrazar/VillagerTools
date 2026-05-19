@@ -29,6 +29,7 @@ public class FriendGolem extends IronGolem {
 
   public FriendGolem(EntityType<? extends IronGolem> type, Level worldIn) {
     super(type, worldIn);
+    this.xpReward = 0;
   }
 
   public static AttributeSupplier.Builder createAttributes() {
@@ -72,13 +73,4 @@ public class FriendGolem extends IronGolem {
     return entityIn instanceof IronGolem || entityIn instanceof GuardVindicator;
   }
 
-  @Override
-  public int getExperienceReward() {
-    return 0;
-  }
-
-  @Override
-  public boolean canBreatheUnderwater() {
-    return true;
-  }
 }
