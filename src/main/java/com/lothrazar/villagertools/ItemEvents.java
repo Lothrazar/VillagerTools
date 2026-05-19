@@ -84,7 +84,7 @@ public class ItemEvents extends EventFlib {
       child.setPos(pos.getX() + world.random.nextInt(5), pos.getY(), pos.getZ() + world.random.nextInt(5));
       child.restrictTo(pos, world.random.nextInt(20) + 10);
       world.addFreshEntity(child);
-      this.onComplete(player, event.getHand(), stack);
+      this.onComplete(player, event.getHand(), stack, true);
     }
   }
 
@@ -103,7 +103,7 @@ public class ItemEvents extends EventFlib {
       ZombieVillager trader = (ZombieVillager) targetEnt;
       //convert as normal
       trader.startConverting(player.getUUID(), world.random.nextInt(2401) + 3600);
-      this.onComplete(player, event.getHand(), stack);
+      this.onComplete(player, event.getHand(), stack,true);
     }
     else if (stack.getItem() == VillagerToolsRegistry.CONTRACT.get() && targetEnt instanceof WanderingTrader) {
       WanderingTrader trader = (WanderingTrader) targetEnt;
@@ -112,7 +112,7 @@ public class ItemEvents extends EventFlib {
       world.addFreshEntity(villagerChild);
       //remove the other
       removeEntity(world, trader);
-      this.onComplete(player, event.getHand(), stack);
+      this.onComplete(player, event.getHand(), stack,true);
     }
     else if (stack.getItem() == VillagerToolsRegistry.GEARS.get() && targetType == EntityType.IRON_GOLEM) {
       IronGolem trader = (IronGolem) targetEnt;
@@ -122,7 +122,7 @@ public class ItemEvents extends EventFlib {
       world.addFreshEntity(villagerChild);
       //remove the other
       removeEntity(world, trader);
-      this.onComplete(player, event.getHand(), stack);
+      this.onComplete(player, event.getHand(), stack,true);
     }
     else if (stack.getItem() == VillagerToolsRegistry.DARKNESS.get() && targetEnt instanceof WanderingTrader) {
       WanderingTrader trader = (WanderingTrader) targetEnt;
@@ -131,7 +131,7 @@ public class ItemEvents extends EventFlib {
       world.addFreshEntity(villagerChild);
       //remove the other
       removeEntity(world, trader);
-      this.onComplete(player, event.getHand(), stack);
+      this.onComplete(player, event.getHand(), stack,true);
     }
     else if (stack.getItem() == VillagerToolsRegistry.DARKNESS.get() && targetEnt instanceof Cow) {
       Cow trader = (Cow) targetEnt;
@@ -140,7 +140,7 @@ public class ItemEvents extends EventFlib {
       world.addFreshEntity(villagerChild);
       //remove the other
       removeEntity(world, trader);
-      this.onComplete(player, event.getHand(), stack);
+      this.onComplete(player, event.getHand(), stack,true);
     }
     else if (stack.getItem() == VillagerToolsRegistry.DARKNESS.get() && targetType == EntityType.VILLAGER) {
       Villager vil = (Villager) targetEnt;
@@ -212,10 +212,10 @@ public class ItemEvents extends EventFlib {
     else if (stack.getItem() == VillagerToolsRegistry.FORGET.get() && targetType == EntityType.VILLAGER) {
       //
       Villager vil = (Villager) targetEnt;
-      // ModMain.LOGGER.info("forget trades on " + vil.getVillagerData());
+
       vil.setVillagerData(vil.getVillagerData().setProfession(VillagerProfession.NONE).setLevel(0));
-      //
-      this.onComplete(player, event.getHand(), stack, falserest);
+      // this one does not get consumed hence false
+      this.onComplete(player, event.getHand(), stack, false);
     }
     else if (stack.getItem() == VillagerToolsRegistry.KNOWLEDGE.get() && targetType == EntityType.VILLAGER) {
       Villager vil = (Villager) targetEnt;
