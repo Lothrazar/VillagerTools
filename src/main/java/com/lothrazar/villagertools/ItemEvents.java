@@ -149,7 +149,7 @@ public class ItemEvents extends EventFlib {
       world.addFreshEntity(villagerChild);
       //remove the other
       removeEntity(world, vil);
-      this.onComplete(player, event.getHand(), stack);
+      this.onComplete(player, event.getHand(), stack, true);
     }
     else if (stack.getItem() == VillagerToolsRegistry.DARKNESS.get() && targetType == EntityType.PILLAGER) {
       Pillager vil = (Pillager) targetEnt;
@@ -158,7 +158,7 @@ public class ItemEvents extends EventFlib {
       world.addFreshEntity(villagerChild);
       //remove the other
       removeEntity(world, vil);
-      this.onComplete(player, event.getHand(), stack);
+      this.onComplete(player, event.getHand(), stack, true);
     }
     else if (stack.getItem() == VillagerToolsRegistry.DARKNESS.get() && targetType == VillagerToolsRegistry.GUARDENTITY.get()) {
       //guard REVERSO
@@ -170,7 +170,7 @@ public class ItemEvents extends EventFlib {
       world.addFreshEntity(child);
       //remove the other
       removeEntity(world, trader);
-      this.onComplete(player, event.getHand(), stack);
+      this.onComplete(player, event.getHand(), stack, true);
     }
     else if (stack.getItem() == VillagerToolsRegistry.GUARD_ITEM.get() && targetEnt instanceof Raider) {
       //pillager into guard
@@ -181,7 +181,7 @@ public class ItemEvents extends EventFlib {
       world.addFreshEntity(villagerChild);
       //remove the other
       removeEntity(world, trader);
-      this.onComplete(player, event.getHand(), stack);
+      this.onComplete(player, event.getHand(), stack, true);
     }
     else if (stack.getItem() == VillagerToolsRegistry.GUARD_ITEM.get() && targetType == EntityType.WITCH) {
       Witch trader = (Witch) targetEnt;
@@ -192,7 +192,7 @@ public class ItemEvents extends EventFlib {
       world.addFreshEntity(villagerChild);
       //remove the other
       removeEntity(world, trader);
-      this.onComplete(player, event.getHand(), stack);
+      this.onComplete(player, event.getHand(), stack, true);
     }
     else if (stack.getItem() == VillagerToolsRegistry.KEY.get() && targetType == EntityType.TRADER_LLAMA) {
       TraderLlama tradeLlama = (TraderLlama) targetEnt;
@@ -201,13 +201,13 @@ public class ItemEvents extends EventFlib {
       world.addFreshEntity(llamaChild);
       //remove the other
       removeEntity(world, tradeLlama);
-      this.onComplete(player, event.getHand(), stack);
+      this.onComplete(player, event.getHand(), stack, true);
     }
     else if (stack.getItem() == VillagerToolsRegistry.RESTOCK.get() && targetType == EntityType.VILLAGER) {
       //
       Villager vil = (Villager) targetEnt;
       restock(vil);
-      this.onComplete(player, event.getHand(), stack);
+      this.onComplete(player, event.getHand(), stack, true);
     }
     else if (stack.getItem() == VillagerToolsRegistry.FORGET.get() && targetType == EntityType.VILLAGER) {
       //
@@ -215,7 +215,7 @@ public class ItemEvents extends EventFlib {
       // ModMain.LOGGER.info("forget trades on " + vil.getVillagerData());
       vil.setVillagerData(vil.getVillagerData().setProfession(VillagerProfession.NONE).setLevel(0));
       //
-      this.onComplete(player, event.getHand(), stack);
+      this.onComplete(player, event.getHand(), stack, falserest);
     }
     else if (stack.getItem() == VillagerToolsRegistry.KNOWLEDGE.get() && targetType == EntityType.VILLAGER) {
       Villager vil = (Villager) targetEnt;
@@ -229,7 +229,7 @@ public class ItemEvents extends EventFlib {
       if (level < 5) {
         vil.increaseMerchantCareer();
         //          vil.setVillagerData(vil.getVillagerData().withLevel(level + 1));
-        this.onComplete(player, event.getHand(), stack);
+        this.onComplete(player, event.getHand(), stack, true);
         //    ModMain.LOGGER.info(" after l " + vil.getVillagerData().getLevel());
       }
     }
@@ -247,7 +247,7 @@ public class ItemEvents extends EventFlib {
           t.append(diff + "");
           player.displayClientMessage(t, false);
         }
-        this.onComplete(player, event.getHand(), stack);
+        this.onComplete(player, event.getHand(), stack, true);
       }
     }
   }
@@ -260,13 +260,13 @@ public class ItemEvents extends EventFlib {
     }
   }
 
-  private void onComplete(Player player, InteractionHand hand, ItemStack stack) {
+  private void onComplete(Player player, InteractionHand hand, ItemStack stack, boolean consumeItem) {
     player.swing(hand);
     player.getCooldowns().addCooldown(stack.getItem(), 30);
     if (player.level().isClientSide) {
       player.displayClientMessage(Component.translatable(stack.getDescriptionId() + ".used"), false);
     }
-    if (!player.isCreative()) {
+    if (consumeItem && !player.isCreative()) {
       stack.shrink(1);
     }
   }
