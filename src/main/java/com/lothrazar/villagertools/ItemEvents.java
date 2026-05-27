@@ -90,6 +90,9 @@ public class ItemEvents extends EventFlib {
 
   @SubscribeEvent
   public void onInteract(PlayerInteractEvent.EntityInteract event) {
+    if (event.getLevel().isClientSide) {
+      return; // Cannot load Villager offers on the client
+    }
     ItemStack stack = event.getItemStack();
     Player player = event.getEntity();
     if (player.getCooldowns().isOnCooldown(stack.getItem())) {
