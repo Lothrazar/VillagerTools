@@ -5,6 +5,6 @@
   },
   "1.21.1": {
 
-    "1.0.4": "Ported to 1.21.  Scroll of hubris is now re-useable, does not get consumed on use"
+    "1.0.4": "Ported to 1.21.  Scroll of hubris is now re-useable, does not get consumed on use and only stacks to one, since now villagers gain professions much faster with their dedicated blocks"
   }
 }

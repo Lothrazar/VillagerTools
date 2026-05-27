@@ -48,7 +48,7 @@ public class VillagerToolsRegistry {
   public static final DeferredHolder<Item, Item>GEARS = ITEMS.register("gears", () -> new ItemVillager(new Item.Properties().stacksTo(64)));
   public static final DeferredHolder<Item, Item>BRIBE = ITEMS.register("bribe", () -> new ItemVillager(new Item.Properties().stacksTo(64)));
   public static final DeferredHolder<Item, Item>RESTOCK = ITEMS.register("restock", () -> new ItemVillager(new Item.Properties().stacksTo(64)));
-  public static final DeferredHolder<Item, Item>FORGET = ITEMS.register("forget", () -> new ItemVillager(new Item.Properties().stacksTo(64)));
+  public static final DeferredHolder<Item, Item>FORGET = ITEMS.register("forget", () -> new ItemVillager(new Item.Properties().stacksTo(1)));
   public static final DeferredHolder<Item, Item>CONTRACT = ITEMS.register("contract", () -> new ItemVillager(new Item.Properties().stacksTo(64)));
   public static final DeferredHolder<Item, Item>DARKNESS = ITEMS.register("darkness", () -> new ItemVillager(new Item.Properties().stacksTo(64)));
   public static final DeferredHolder<Item, Item>GUARD_ITEM = ITEMS.register("guard", () -> new ItemVillager(new Item.Properties().stacksTo(64)));
