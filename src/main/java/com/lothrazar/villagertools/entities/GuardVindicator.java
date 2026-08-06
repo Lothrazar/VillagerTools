@@ -14,10 +14,10 @@ import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.TemptGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
-import net.minecraft.world.entity.animal.IronGolem;
+import net.minecraft.world.entity.animal.golem.IronGolem;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Enemy;
-import net.minecraft.world.entity.monster.Vindicator;
+import net.minecraft.world.entity.monster.illager.Vindicator;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
@@ -38,7 +38,7 @@ public class GuardVindicator extends Vindicator {
     this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
     this.goalSelector.addGoal(2, new TemptGoal(this, 0.666, Ingredient.of(VillagerToolsRegistry.LURE.get()), false));
     this.targetSelector.addGoal(2, new HurtByTargetGoal(this, Player.class));
-    this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Mob.class, 5, false, false, (e) -> {
+    this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Mob.class, 5, false, false, (e, level) -> {
       return e instanceof Enemy
           && !(e instanceof IronGolem)
           && !(e instanceof Creeper)
@@ -47,11 +47,11 @@ public class GuardVindicator extends Vindicator {
   }
 
   @Override
-  public boolean isAlliedTo(Entity entityIn) {
+  protected boolean considersEntityAsAlly(Entity entityIn) {
     if (entityIn instanceof Player) {
       return true;
     }
-    if (this.getTeam() != null && this.getTeam().isAlliedTo(entityIn.getTeam())) {
+    if (super.considersEntityAsAlly(entityIn)) {
       return true;
     }
     return entityIn instanceof IronGolem || entityIn instanceof GuardVindicator;

@@ -18,7 +18,7 @@ import net.minecraft.world.entity.ai.goal.target.DefendVillageTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.ResetUniversalAngerTargetGoal;
-import net.minecraft.world.entity.animal.IronGolem;
+import net.minecraft.world.entity.animal.golem.IronGolem;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
@@ -53,7 +53,7 @@ public class FriendGolem extends IronGolem {
     this.goalSelector.addGoal(2, new TemptGoal(this, 0.666, Ingredient.of(VillagerToolsRegistry.LURE.get()), false));
     this.targetSelector.addGoal(1, new DefendVillageTargetGoal(this));
     this.targetSelector.addGoal(2, new HurtByTargetGoal(this, Player.class));
-    this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Mob.class, 5, false, false, (e) -> {
+    this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Mob.class, 5, false, false, (e, level) -> {
       return e instanceof Enemy
           && !(e instanceof IronGolem)
           && !(e instanceof Creeper)
@@ -63,11 +63,11 @@ public class FriendGolem extends IronGolem {
   }
 
   @Override
-  public boolean isAlliedTo(Entity entityIn) {
+  protected boolean considersEntityAsAlly(Entity entityIn) {
     if (entityIn instanceof Player) {
       return true;
     }
-    if (this.getTeam() != null && this.getTeam().isAlliedTo(entityIn.getTeam())) {
+    if (super.considersEntityAsAlly(entityIn)) {
       return true;
     }
     return entityIn instanceof IronGolem || entityIn instanceof GuardVindicator;

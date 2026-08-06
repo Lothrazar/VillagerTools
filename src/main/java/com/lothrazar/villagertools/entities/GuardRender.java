@@ -3,19 +3,19 @@ package com.lothrazar.villagertools.entities;
 import com.lothrazar.villagertools.VillagerToolsMod;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.VindicatorRenderer;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.monster.Vindicator;
-@SuppressWarnings("hiding")
-public class GuardRender<GuardVindicator> extends VindicatorRenderer {
+import net.minecraft.client.renderer.entity.state.IllagerRenderState;
+import net.minecraft.resources.Identifier;
 
-  private static final ResourceLocation TXT = ResourceLocation.fromNamespaceAndPath(VillagerToolsMod.MODID, "textures/entity/guard.png");
+public class GuardRender extends VindicatorRenderer {
+
+  private static final Identifier TXT = Identifier.fromNamespaceAndPath(VillagerToolsMod.MODID, "textures/entity/guard.png");
 
   public GuardRender(EntityRendererProvider.Context ctx) {
     super(ctx);
   }
 
   @Override
-  public ResourceLocation getTextureLocation(Vindicator entity) {
+  public Identifier getTextureLocation(IllagerRenderState state) {
     return TXT;
   }
 }

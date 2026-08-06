@@ -9,7 +9,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -29,7 +29,7 @@ public class VillagerToolsRegistry {
 
   public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(BuiltInRegistries.ITEM, VillagerToolsMod.MODID);
   public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(BuiltInRegistries.ENTITY_TYPE, VillagerToolsMod.MODID);
-  private static final ResourceKey<CreativeModeTab> TAB = ResourceKey.create(Registries.CREATIVE_MODE_TAB, ResourceLocation.fromNamespaceAndPath(VillagerToolsMod.MODID, "tab"));
+  private static final ResourceKey<CreativeModeTab> TAB = ResourceKey.create(Registries.CREATIVE_MODE_TAB, Identifier.fromNamespaceAndPath(VillagerToolsMod.MODID, "tab"));
 
   @SubscribeEvent
   public static void onCreativeModeTabRegister(RegisterEvent event) {
@@ -63,7 +63,7 @@ public class VillagerToolsRegistry {
       EntityType.Builder.<FriendGolem> of(FriendGolem::new, MobCategory.MISC).sized(1.4F, 2.7F).clientTrackingRange(10)));
 
   public static <T extends Entity> EntityType<T> register(String id, EntityType.Builder<T> builder) {
-    return builder.build(id);
+    return builder.build(ResourceKey.create(Registries.ENTITY_TYPE, Identifier.fromNamespaceAndPath(VillagerToolsMod.MODID, id)));
   }
 
   @SubscribeEvent
