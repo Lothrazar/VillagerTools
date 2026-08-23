@@ -6,9 +6,9 @@
     " y "
   ],
   "key": {
-    "z": {"item": "villagertools:cure"},
-    "x": {"item": "minecraft:leather"},
-    "y": {"item": "villagertools:darkness"}
+    "z": "villagertools:cure",
+    "x": "minecraft:leather",
+    "y": "villagertools:darkness"
   },
   "result": {
     "id": "villagertools:guard"

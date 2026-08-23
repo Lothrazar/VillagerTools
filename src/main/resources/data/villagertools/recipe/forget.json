@@ -5,9 +5,9 @@
     " y "
   ],
   "key": {
-    "p": {"item": "villagertools:contract"},
-    "x": {"item": "minecraft:ink_sac"},
-    "y": {"item": "minecraft:stick"}
+    "p": "villagertools:contract",
+    "x": "minecraft:ink_sac",
+    "y": "minecraft:stick"
   },
   "result": {
     "id": "villagertools:forget"

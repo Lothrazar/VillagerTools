@@ -6,9 +6,9 @@
     " y "
   ],
   "key": {
-    "p": {"item": "minecraft:gold_nugget"},
-    "x": {"item": "minecraft:iron_nugget"},
-    "y": {"item": "villagertools:contract"}
+    "p": "minecraft:gold_nugget",
+    "x": "minecraft:iron_nugget",
+    "y": "villagertools:contract"
   },
   "result": {
     "id": "villagertools:key"

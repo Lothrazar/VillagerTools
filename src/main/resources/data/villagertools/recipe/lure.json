@@ -6,9 +6,9 @@
     " x "
   ],
   "key": {
-    "p": {"item": "minecraft:lantern"},
-    "x": {"item": "minecraft:iron_nugget"},
-    "y": {"item": "minecraft:lime_dye"}
+    "p": "minecraft:lantern",
+    "x": "minecraft:iron_nugget",
+    "y": "minecraft:lime_dye"
   },
   "result": {
     "id": "villagertools:lure"

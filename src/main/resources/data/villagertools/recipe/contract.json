@@ -6,9 +6,9 @@
     " p "
   ],
   "key": {
-    "p": {"item": "minecraft:paper"},
-    "x": {"item": "minecraft:ink_sac"},
-    "y": {"item": "minecraft:feather"}
+    "p": "minecraft:paper",
+    "x": "minecraft:ink_sac",
+    "y": "minecraft:feather"
   },
   "result": {
     "id": "villagertools:contract"

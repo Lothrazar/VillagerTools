@@ -1,6 +1,6 @@
 {
   "type": "minecraft:stonecutting",
-  "ingredient": {"item": "minecraft:emerald"},
+  "ingredient": "minecraft:emerald",
   "result": {
     "id": "villagertools:restock",
     "count": 10

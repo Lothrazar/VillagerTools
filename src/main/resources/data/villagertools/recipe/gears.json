@@ -6,9 +6,9 @@
     " y "
   ],
   "key": {
-    "p": {"item": "villagertools:guard"},
-    "x": {"item": "minecraft:iron_block"},
-    "y": {"item": "villagertools:restock"}
+    "p": "villagertools:guard",
+    "x": "minecraft:iron_block",
+    "y": "villagertools:restock"
   },
   "result": {
     "id": "villagertools:gears"

@@ -5,9 +5,9 @@
     "pxp"
   ],
   "key": {
-    "p": {"item": "minecraft:glass_pane"},
-    "#": {"item": "minecraft:fermented_spider_eye"},
-    "x": {"item": "minecraft:golden_apple"}
+    "p": "minecraft:glass_pane",
+    "#": "minecraft:fermented_spider_eye",
+    "x": "minecraft:golden_apple"
   },
   "result": {
     "id": "villagertools:cure",

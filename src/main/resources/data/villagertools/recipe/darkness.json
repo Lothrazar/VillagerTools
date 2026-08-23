@@ -6,9 +6,9 @@
     "xyx"
   ],
   "key": {
-    "p": {"item": "minecraft:ender_pearl"},
-    "x": {"item": "minecraft:rotten_flesh"},
-    "y": {"item": "villagertools:restock"}
+    "p": "minecraft:ender_pearl",
+    "x": "minecraft:rotten_flesh",
+    "y": "villagertools:restock"
   },
   "result": {
     "id": "villagertools:darkness"

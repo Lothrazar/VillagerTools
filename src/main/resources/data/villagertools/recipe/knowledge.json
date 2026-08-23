@@ -6,9 +6,9 @@
     " y "
   ],
   "key": {
-    "p": {"item": "minecraft:book"},
-    "x": {"item": "minecraft:iron_nugget"},
-    "y": {"item": "villagertools:restock"}
+    "p": "minecraft:book",
+    "x": "minecraft:iron_nugget",
+    "y": "villagertools:restock"
   },
   "result": {
     "id": "villagertools:knowledge"

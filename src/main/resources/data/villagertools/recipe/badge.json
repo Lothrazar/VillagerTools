@@ -6,9 +6,9 @@
     " y "
   ],
   "key": {
-    "p": {"item": "minecraft:shield"},
-    "x": {"item": "villagertools:darkness"},
-    "y": {"item": "villagertools:restock"}
+    "p": "minecraft:shield",
+    "x": "villagertools:darkness",
+    "y": "villagertools:restock"
   },
   "result": {
     "id": "villagertools:badge"

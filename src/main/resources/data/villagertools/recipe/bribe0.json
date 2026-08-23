@@ -5,9 +5,9 @@
     "pxp"
   ],
   "key": {
-    "p": {"item": "minecraft:glass_pane"},
-    "#": {"item": "minecraft:poppy"},
-    "x": {"item": "minecraft:apple"}
+    "p": "minecraft:glass_pane",
+    "#": "minecraft:poppy",
+    "x": "minecraft:apple"
   },
   "result": {
     "id": "villagertools:bribe",
